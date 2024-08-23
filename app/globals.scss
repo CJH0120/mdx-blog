@@ -1,0 +1,33 @@
+@import "./styles/_utils.scss";
+@import "./styles/_variables.scss";
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	font-size: 16px;
+	min-height: 100vh;
+	background: $white;
+	.layout {
+		display: flex;
+		flex-direction: column;
+		padding: 40px 15px;
+		margin: 0 auto;
+		width: 100%;
+		max-width: 777px;
+		flex: 1;
+		@include mobile {
+			padding: 15px;
+		}
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	html {
+		color-scheme: dark;
+	}
+}

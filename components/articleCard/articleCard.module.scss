@@ -1,0 +1,95 @@
+@import "../../styles/_variables.scss";
+@import "../../styles/utils.scss";
+
+.card-wrapper {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	padding: 20px 0px;
+	gap: 10px;
+	text-decoration: none;
+	transform: translateY(30%);
+	opacity: 0;
+	transition: all 0.3s ease-in-out;
+
+	&.card-into-view {
+		transform: translateY(0%);
+		opacity: 1;
+	}
+	&.card-not-intersect {
+		transform: translateY(0%);
+		opacity: 1;
+		box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+			rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+		padding: 20px 15px;
+
+		.card-content {
+			justify-content: space-between;
+		}
+	}
+	.card-content {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		flex: 1;
+		@include mobile {
+			gap: 5px;
+		}
+		.card-title {
+			font-size: 1.3rem;
+			font-weight: 600;
+			color: $black;
+			@include mobile {
+				font-size: 1rem;
+			}
+		}
+		.card-description {
+			font-size: 0.9rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			line-clamp: 3;
+			-webkit-box-orient: vertical;
+			color: $gray600;
+			padding: 4px 0;
+			@include mobile {
+				font-size: 0.8rem;
+			}
+		}
+		.card-date {
+			font-size: 0.9rem;
+			color: $gray600;
+			@include mobile {
+				font-size: 0.8rem;
+			}
+		}
+	}
+
+	.card-thumbnail {
+		position: relative;
+		border-radius: 8px;
+		overflow: hidden;
+		width: 120px;
+		height: 90px;
+		img {
+			object-fit: cover;
+			transition: transform 0.2s ease;
+		}
+		@include mobile {
+			width: 90px;
+			height: 67.5px;
+		}
+	}
+	&:hover {
+		.card-content {
+			.card-title {
+				color: $primary;
+			}
+		}
+		.card-thumbnail {
+			img {
+				transform: scale(1.1);
+			}
+		}
+	}
+}
