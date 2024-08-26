@@ -25,7 +25,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const data = await getFiles(params.slug)
 	if (!data) notFound()
 	const RecommendData = await useReadMdxTags(data.meta.tags ?? [], params.slug)
-
 	return (
 		<>
 			<MDXWrapper content={data.content} meta={data.meta} />

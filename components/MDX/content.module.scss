@@ -157,6 +157,9 @@ $border-bottom-color_1: var(--color-neutral-muted);
 	font-size: 16px;
 	line-height: 1.5;
 	word-wrap: break-word;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 	.octicon {
 		display: inline-block;
 		fill: currentColor;

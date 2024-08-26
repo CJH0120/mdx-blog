@@ -6,18 +6,15 @@ import {
 	PropsWithChildren,
 	useCallback,
 	useEffect,
+	useRef,
 	useState,
 } from "react"
 import styles from "./code.module.scss"
 import IconCopy from "@/components/icons/ic-copy"
 import hljs from "highlight.js/lib/core"
-import Script from "next/script"
-import javascript from "highlight.js/lib/languages/javascript"
-import css from "highlight.js/lib/languages/css"
+import typescript from "highlight.js/lib/languages/typescript"
 import scss from "highlight.js/lib/languages/scss"
-import shell from "highlight.js/lib/languages/shell"
-import python from "highlight.js/lib/languages/python"
-import xml from "highlight.js/lib/languages/xml"
+
 import "./code.scss"
 export const Code: FC<PropsWithChildren> = memo(({ children }) => {
 	const [isCopy, setIsCopy] = useState<boolean>(false)
@@ -31,40 +28,35 @@ export const Code: FC<PropsWithChildren> = memo(({ children }) => {
 		if (!isCopy) return
 		const timer = setTimeout(() => {
 			setIsCopy(false)
-		}, 3000)
+		}, 2300)
 		return () => {
 			clearTimeout(timer)
 		}
 	}, [isCopy])
+	const codeEl = useRef<HTMLPreElement>(null)
 	useEffect(() => {
-		hljs.registerLanguage("javascript", javascript)
-		hljs.registerLanguage("python", python)
-		hljs.registerLanguage("shell", shell)
+		hljs.registerLanguage("typescript", typescript)
 		hljs.registerLanguage("scss", scss)
-		hljs.registerLanguage("css", css)
-		hljs.registerLanguage("html", xml)
-	})
+		if (codeEl.current) {
+			const codeBlock = codeEl.current
+			hljs.registerLanguage("typescript", typescript)
+			hljs.registerLanguage("scss", scss)
+			hljs.highlightElement(codeBlock)
+		}
+	}, [children])
 
-	useEffect(() => {
-		hljs.highlightAll()
-	}, [])
 	return (
-		<>
-			<div className={[styles["code-wrapper"]].join(" ")}>
-				<pre className={styles["code-wrapper"]}>
-					<code style={{ padding: "0px" }} className={styles.code}>
-						{children}
-					</code>
-				</pre>
-
-				<div className={styles["button-wrapper"]}>
-					{isCopy && <span className={styles["copied"]}>Copied</span>}
-					<button onClick={handleClipboard}>
-						<IconCopy />
-					</button>
-				</div>
+		<div className={styles["code-wrapper"]}>
+			<pre ref={codeEl} className={[styles["code-pre"]].join(" ")}>
+				<code className={styles.code}>{children}</code>
+			</pre>
+			<div className={styles["button-wrapper"]}>
+				{isCopy && <span className={styles["copied"]}>Copied</span>}
+				<button onClick={handleClipboard}>
+					<IconCopy />
+				</button>
 			</div>
-		</>
+		</div>
 	)
 })
 

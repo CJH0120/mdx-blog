@@ -1,23 +1,9 @@
 import styles from "./mdxWrapper.module.scss"
 import { MDX } from "@/interface"
-import Link from "next/link"
 import MDXContent from "./mdxContent"
 import Image from "next/image"
-import ArticleNav from "./articleNav"
-import RecommendBox from "../recommendBox"
 
 const MDXWrapper = ({ content, meta }: MDX.Props) => {
-	const articleNav = content
-		.split("\n")
-		.filter(
-			(x) =>
-				x.startsWith("##") ||
-				x.startsWith("#") ||
-				x.startsWith("###") ||
-				x.startsWith("####")
-		)
-		.map((v) => v.replaceAll("#", "").trim())
-
 	return (
 		<>
 			<article className={styles.container}>
