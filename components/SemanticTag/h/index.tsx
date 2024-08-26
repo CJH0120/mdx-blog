@@ -41,7 +41,7 @@ export const Heading: FC<HeadingProps> = memo(({ level, children }) => {
 			}, 2000)
 			return () => clearTimeout(timeoutId)
 		}
-	}, [hash])
+	}, [children, hash])
 
 	const Tag = `h${level}` as keyof JSX.IntrinsicElements
 	const id = children?.toString().replaceAll(" ", "-")

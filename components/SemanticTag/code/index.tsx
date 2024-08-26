@@ -23,7 +23,7 @@ export const Code: FC<PropsWithChildren> = memo(({ children }) => {
 			navigator.clipboard.writeText((children ?? "").toString())
 			setIsCopy(true)
 		} catch (error) {}
-	}, [])
+	}, [children])
 	useEffect(() => {
 		if (!isCopy) return
 		const timer = setTimeout(() => {

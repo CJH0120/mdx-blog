@@ -46,7 +46,7 @@ const ArticleCard = memo(
 					observer.unobserve(ref.current)
 				}
 			}
-		}, [])
+		}, [isAnimate, isMain, handleIntoView])
 		return (
 			<Link
 				className={[
@@ -67,10 +67,13 @@ const ArticleCard = memo(
 
 				<div className={styles["card-thumbnail"]}>
 					<Image
+						style={{
+							objectFit: "cover",
+						}}
 						src={`/${thumbnail}`}
 						alt={title}
 						fill
-						sizes="100px"
+						quality={85}
 						blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
 						placeholder="blur"
 					/>
