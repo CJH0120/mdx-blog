@@ -2,9 +2,8 @@
 .recommend-box-wrapper {
 	display: flex;
 	flex-direction: column;
-	border-top: 1px solid $gray100;
+	border-top: 1px solid var(--border-color);
 	margin: 0 -15px;
 	& > div:not(:last-child) {
-		// border-bottom: 1px solid $gray100;
 	}
 }

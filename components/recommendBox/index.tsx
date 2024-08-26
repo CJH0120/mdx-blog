@@ -11,9 +11,9 @@ const RecommendBox = ({
 }) => {
 	return (
 		<div className={[styles.recommendBox].join(" ")}>
-			<h3 className={styles["recommend-title"]}>
+			<h4 className={styles["recommend-title"]}>
 				<span>{keyItem}</span> 관련 연관 콘텐츠
-			</h3>
+			</h4>
 			<ul className={[styles["recommend-list"]].join(" ")}>
 				{recommendItem.map((v) => (
 					<li key={v.title} className={styles["recommend-item"]}>

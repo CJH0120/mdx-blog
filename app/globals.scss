@@ -6,13 +6,42 @@
 	margin: 0;
 }
 :root {
+	--primary: #ff6f61;
+
+	// 다크 모드 기본 변수
+	--dark-background: #121212;
+	--dark-text: #fff;
+	--dark-border: #495057;
+	--dark-icon: #343a40;
+	// 라이트 모드 기본 변수
+	--light-background: #fff;
+	--light-text: #000;
+	--light-border: #eee;
+	--light-icon: #000;
+}
+@media (prefers-color-scheme: dark) {
+	html {
+		--background-color: var(--dark-background);
+		--text-color: var(--dark-text);
+		--border-color: var(--dark-border);
+		--icon-color: var(--dark-icon);
+	}
+}
+@media (prefers-color-scheme: light) {
+	html {
+		--background-color: var(--light-background);
+		--text-color: var(--light-text);
+		--border-color: var(--light-border);
+		--icon-color: var(--light-icon);
+	}
 }
 body {
 	display: flex;
 	flex-direction: column;
 	font-size: 16px;
 	min-height: 100vh;
-	background: $white;
+	color: var(--text-color);
+	background-color: var(--background-color);
 	.layout {
 		display: flex;
 		flex-direction: column;
@@ -25,10 +54,12 @@ body {
 			padding: 15px;
 		}
 	}
-}
-
-@media (prefers-color-scheme: dark) {
-	html {
-		color-scheme: dark;
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		color: var(--text-color);
 	}
 }

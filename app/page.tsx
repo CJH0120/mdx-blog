@@ -5,7 +5,6 @@ import ArticleCard from "@/components/articleCard"
 
 export default async function Home() {
 	const markdownFiles = await useReadMdx()
-	console.log(markdownFiles)
 	return (
 		<ul className={styles.main}>
 			{markdownFiles.map((v) => {
