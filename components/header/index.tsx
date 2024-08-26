@@ -5,9 +5,9 @@ const Header = () => {
 	return (
 		<header id="header" className={styles.header}>
 			<div className={styles["header-container"]}>
-				<div>
-					<Link href={"/"}>로고</Link>
-				</div>
+				<Link href={"/"} className={styles["header-main"]}>
+					<h1 className={styles["title"]}>Bitten</h1>
+				</Link>
 				<div>
 					<a href="https://github.com/1kki/gpt3-ko">github</a>
 					{/* <button onClick={() => color.setItem("light")}>Light</button>

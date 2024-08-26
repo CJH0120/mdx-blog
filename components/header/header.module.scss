@@ -11,5 +11,12 @@
 		display: flex;
 		justify-content: space-between;
 		max-width: 1234px;
+		.header-main {
+			width: fit-content;
+			text-decoration: none;
+			.title {
+				font-size: 1.6rem;
+			}
+		}
 	}
 }
