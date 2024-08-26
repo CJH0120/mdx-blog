@@ -3,7 +3,6 @@ import { Roboto } from "next/font/google"
 import "./globals.scss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import { cookies } from "next/headers"
 import AnimationProvider from "@/provider/AnimationProvider"
 import iphone from "./apple-touch-icon.png"
 const inter = Roboto({

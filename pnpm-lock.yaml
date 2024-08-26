@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      google:
+        specifier: link:@next/third-parties/google
+        version: link:@next/third-parties/google
       highlight.js:
         specifier: ^11.10.0
         version: 11.10.0

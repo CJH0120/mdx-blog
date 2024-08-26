@@ -9,6 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"google": "link:@next/third-parties/google",
 		"highlight.js": "^11.10.0",
 		"image-size": "^1.1.1",
 		"next": "14.2.5",
