@@ -4,6 +4,7 @@ import Link from "next/link"
 import styles from "./articleCard.module.scss"
 import Image from "next/image"
 import { memo, useCallback, useEffect, useRef } from "react"
+import { useAnimation } from "@/hooks/useAnimation"
 const ArticleCard = memo(
 	({
 		date,
@@ -14,18 +15,18 @@ const ArticleCard = memo(
 		isMain = true,
 	}: Omit<MDX.Metadata, "tags"> & { isMain?: boolean }) => {
 		const ref = useRef<HTMLAnchorElement>(null)
-
+		const { isAnimate } = useAnimation()
 		const handleIntoView = useCallback(() => {
 			if (!ref.current) return
 			ref.current.classList.add(styles["card-into-view"])
 		}, [])
 
 		useEffect(() => {
-			if (!ref.current || !isMain) return
+			if (!ref.current || !isMain || !isAnimate) return
 
 			const options = {
 				root: null,
-				rootMargin: "1px",
+				rootMargin: "-1px",
 				threshold: 1.0,
 			}
 
@@ -45,12 +46,13 @@ const ArticleCard = memo(
 					observer.unobserve(ref.current)
 				}
 			}
-		}, [title, handleIntoView, isMain])
+		}, [])
 		return (
 			<Link
 				className={[
 					styles["card-wrapper"],
 					!isMain ? styles["card-not-intersect"] : "",
+					!isAnimate ? styles["card-into-view"] : "",
 				].join(" ")}
 				href={`/article/${path}`}
 				ref={ref}
@@ -68,9 +70,7 @@ const ArticleCard = memo(
 						src={`/${thumbnail}`}
 						alt={title}
 						fill
-						quality={100}
-						priority
-						sizes="(max-width: 768px) 33vw, (max-width: 1200px) 33vw"
+						sizes="100px"
 						blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
 						placeholder="blur"
 					/>

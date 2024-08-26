@@ -31,10 +31,13 @@ const MDXWrapper = ({ content, meta }: MDX.Props) => {
 						}}
 					>
 						<Image
-							quality={100}
-							placeholder="blur"
 							blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
-							sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw"
+							placeholder="blur"
+							quality={85}
+							priority
+							style={{
+								objectFit: "cover",
+							}}
 							draggable={false}
 							src={`/${meta.thumbnail}`}
 							alt={meta.title}

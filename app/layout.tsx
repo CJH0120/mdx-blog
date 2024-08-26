@@ -4,6 +4,7 @@ import "./globals.scss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { cookies } from "next/headers"
+import AnimationProvider from "@/provider/AnimationProvider"
 
 const inter = Roboto({
 	subsets: ["vietnamese", "latin"],
@@ -30,9 +31,11 @@ export default function RootLayout({
 	return (
 		<html lang="kr" suppressHydrationWarning>
 			<body className={inter.className}>
-				<Header />
-				<main className="layout">{children}</main>
-				<Footer />
+				<AnimationProvider>
+					<Header />
+					<main className="layout">{children}</main>
+					<Footer />
+				</AnimationProvider>
 			</body>
 		</html>
 	)
