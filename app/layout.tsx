@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next"
-import { Roboto } from "next/font/google"
 import "./globals.scss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
@@ -7,17 +6,23 @@ import AnimationProvider from "@/provider/AnimationProvider"
 import iphone from "./apple-touch-icon.png"
 import favicon from "./favicon.ico"
 import ogImage from "@/public/image/main_og.png"
-const inter = Roboto({
-	subsets: ["vietnamese", "latin"],
-	weight: ["400", "700"],
-	variable: "--font-inter",
-})
+import localFont from "next/font/local"
+
 export const viewport: Viewport = {
 	width: "device-width",
 	initialScale: 1,
 	maximumScale: 1,
 	userScalable: false,
 }
+
+const runReg = localFont({
+	src: "../public/assets/fonts/run-reg.otf",
+	display: "swap",
+})
+const runBold = localFont({
+	src: "../public/assets/fonts/run-bold.otf",
+	display: "swap",
+})
 export const metadata: Metadata = {
 	metadataBase: new URL("https://bittenlog.vercel.app"),
 	title: {
@@ -52,7 +57,7 @@ export default function RootLayout({
 				<link rel="icon" href={favicon.src} sizes="any" />
 				<link rel="apple-touch-icon" href={iphone.src} />
 			</head>
-			<body className={inter.className}>
+			<body className={[runReg.className, runBold.className].join(" ")}>
 				<AnimationProvider>
 					<Header />
 					<main className="layout">{children}</main>

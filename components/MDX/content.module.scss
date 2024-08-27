@@ -29,14 +29,6 @@ $color_28: var(--color-prettylights-syntax-brackethighlighter-angle);
 $color_29: var(--color-prettylights-syntax-sublimelinter-gutter-mark);
 $color_30: var(--color-prettylights-syntax-constant-other-reference-link);
 $color_31: var(--color-danger-fg);
-$font-family_1: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
-	sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-$font-family_2: monospace, monospace;
-$font-family_3: inherit;
-$font-family_4: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
-	Liberation Mono, monospace;
-$font-family_5: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-$font-family_6: monospace;
 $background-color_1: var(--color-canvas-default);
 $background-color_2: currentColor;
 $background-color_3: transparent;
@@ -153,7 +145,6 @@ $border-bottom-color_1: var(--color-neutral-muted);
 	margin: 0;
 	color: $color_1;
 	background-color: $background-color_1;
-	font-family: $font-family_1;
 	font-size: 16px;
 	line-height: 1.5;
 	word-wrap: break-word;
@@ -496,9 +487,7 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		background-color: $background-color_1;
 	}
 	code {
-		font-family: $font-family_2;
 		font-size: 1em;
-		font-family: $font-family_4;
 		font-size: 12px;
 		padding: 0.2em 0.4em;
 		margin: 0;
@@ -510,7 +499,6 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		}
 	}
 	kbd {
-		font-family: $font-family_2;
 		font-size: 1em;
 		display: inline-block;
 		padding: 3px 5px;
@@ -526,11 +514,9 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		box-shadow: inset 0 -1px 0 var(--color-neutral-muted);
 	}
 	pre {
-		font-family: $font-family_2;
 		font-size: 1em;
 		margin-top: 0;
 		margin-bottom: 0;
-		font-family: $font-family_4;
 		font-size: 12px;
 		word-wrap: normal;
 		margin-top: 0;
@@ -574,7 +560,6 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		}
 	}
 	samp {
-		font-family: $font-family_2;
 		font-size: 1em;
 	}
 	hr {
@@ -601,7 +586,6 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		font: inherit;
 		margin: 0;
 		overflow: visible;
-		font-family: $font-family_3;
 		font-size: inherit;
 		line-height: inherit;
 		&::-webkit-outer-spin-button {
@@ -784,7 +768,6 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		margin-left: 0;
 	}
 	tt {
-		font-family: $font-family_4;
 		font-size: 12px;
 		padding: 0.2em 0.4em;
 		margin: 0;
@@ -925,7 +908,6 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		display: block;
 	}
 	g-emoji {
-		font-family: $font-family_5;
 		font-size: 1em;
 		font-style: normal !important;
 		font-weight: 400;
@@ -1180,7 +1162,6 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		}
 		.data-footnote-backref {
 			g-emoji {
-				font-family: $font-family_6;
 			}
 		}
 	}
