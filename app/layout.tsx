@@ -19,6 +19,7 @@ export const viewport: Viewport = {
 	userScalable: false,
 }
 export const metadata: Metadata = {
+	metadataBase: new URL("https://bittenlog.vercel.app"),
 	title: {
 		default: "Bitten Dev",
 		template: "%s | Bitten",
