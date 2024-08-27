@@ -5,6 +5,8 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import AnimationProvider from "@/provider/AnimationProvider"
 import iphone from "./apple-touch-icon.png"
+import favicon from "./favicon.ico"
+import ogImage from "@/public/image/main_og.png"
 const inter = Roboto({
 	subsets: ["vietnamese", "latin"],
 	weight: ["400", "700"],
@@ -19,10 +21,23 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
 	title: {
 		default: "Bitten Dev",
-		template: "%s | 비튼 개발자",
+		template: "%s | Bitten",
 	},
 	description:
-		"성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는 테크 블로그 입니다.",
+		"성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는 개발 블로그 입니다.",
+
+	openGraph: {
+		images: ogImage.src,
+		title: {
+			default: "Bitten Dev",
+			template: "%s | Bitten",
+		},
+		description:
+			"성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는 개발 블로그 입니다.",
+	},
+	verification: {
+		google: "YVXKm27ccjmhfdeDUK6IxOkBx5XmDpjP0deNtjWEJwc",
+	},
 }
 
 export default function RootLayout({
@@ -31,9 +46,9 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="kr" suppressHydrationWarning>
+		<html lang="ko" suppressHydrationWarning>
 			<head>
-				<link rel="icon" href="/favicon.ico" sizes="any" />
+				<link rel="icon" href={favicon.src} sizes="any" />
 				<link rel="apple-touch-icon" href={iphone.src} />
 			</head>
 			<body className={inter.className}>
