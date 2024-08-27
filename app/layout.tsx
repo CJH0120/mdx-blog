@@ -7,21 +7,27 @@ import iphone from "./apple-touch-icon.png"
 import favicon from "./favicon.ico"
 import ogImage from "@/public/image/main_og.png"
 import { Noto_Sans_KR } from "next/font/google"
+import { GoogleAnalytics } from "@next/third-parties/google"
+
+import { Analytics } from "@vercel/analytics/react"
+
 export const viewport: Viewport = {
 	width: "device-width",
 	initialScale: 1,
 	maximumScale: 1,
 	userScalable: false,
 }
-import { Analytics } from "@vercel/analytics/react"
+
 export const metadata: Metadata = {
 	metadataBase: new URL("https://bittenlog.vercel.app"),
 	title: {
 		default: "Bitten Dev",
 		template: "%s | Bitten",
 	},
+	category: "tech blog",
 	description:
 		"성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는 개발 블로그 입니다.",
+	authors: [{ name: "Bitten", url: "https://bittenlog.vercel.app" }],
 
 	openGraph: {
 		images: ogImage.src,
@@ -58,6 +64,7 @@ export default function RootLayout({
 					<Footer />
 				</AnimationProvider>
 				<Analytics />
+				<GoogleAnalytics gaId="GTM-5LNSR6M9" />
 			</body>
 		</html>
 	)
