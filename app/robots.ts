@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
 			userAgent: "*",
 			allow: "/",
 		},
-		sitemap: "https://hyune.vercel.app/sitemap.xml",
+		sitemap: "https://bittenlog.vercel.app/sitemap.xml",
 	}
 }
