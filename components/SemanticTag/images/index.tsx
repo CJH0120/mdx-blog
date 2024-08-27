@@ -38,7 +38,10 @@ export const ImagesTag: FC<ImagesTagProps> = ({
 		}
 	}
 
-	const aspectRatio = width && height ? `${width}/${height}` : "16/9"
+	const aspectRatio =
+		newProps.width && newProps.height
+			? `${newProps.width}/${newProps.height}`
+			: "16/9"
 
 	return (
 		<span
@@ -47,7 +50,7 @@ export const ImagesTag: FC<ImagesTagProps> = ({
 				position: "relative",
 				overflow: "hidden",
 				width: "100%",
-				maxWidth: width || "inherit",
+				maxWidth: newProps.width || "inherit",
 				aspectRatio,
 			}}
 		>

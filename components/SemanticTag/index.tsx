@@ -13,15 +13,5 @@ const CustomTag: Readonly<MDXComponents> = {
 	a: LinkTag,
 	img: ImagesTag,
 	code: Code,
-	p: (props) => {
-		const hasBlockChild = Children.toArray(props.children).some(
-			(child) => React.isValidElement(child) && ["div", "pre", "table"]
-		)
-		if (hasBlockChild) {
-			return <>{props.children}</>
-		}
-
-		return <p {...props} />
-	},
 }
 export default CustomTag

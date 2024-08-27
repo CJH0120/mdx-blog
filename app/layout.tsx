@@ -6,8 +6,7 @@ import AnimationProvider from "@/provider/AnimationProvider"
 import iphone from "./apple-touch-icon.png"
 import favicon from "./favicon.ico"
 import ogImage from "@/public/image/main_og.png"
-import localFont from "next/font/local"
-
+import { Noto_Sans_KR } from "next/font/google"
 export const viewport: Viewport = {
 	width: "device-width",
 	initialScale: 1,
@@ -15,14 +14,6 @@ export const viewport: Viewport = {
 	userScalable: false,
 }
 
-const runReg = localFont({
-	src: "../public/assets/fonts/run-reg.otf",
-	display: "swap",
-})
-const runBold = localFont({
-	src: "../public/assets/fonts/run-bold.otf",
-	display: "swap",
-})
 export const metadata: Metadata = {
 	metadataBase: new URL("https://bittenlog.vercel.app"),
 	title: {
@@ -45,7 +36,10 @@ export const metadata: Metadata = {
 		google: "YVXKm27ccjmhfdeDUK6IxOkBx5XmDpjP0deNtjWEJwc",
 	},
 }
-
+const font = Noto_Sans_KR({
+	weight: ["300", "400", "500", "700", "800", "900"],
+	subsets: ["latin"],
+})
 export default function RootLayout({
 	children,
 }: Readonly<{
@@ -57,7 +51,7 @@ export default function RootLayout({
 				<link rel="icon" href={favicon.src} sizes="any" />
 				<link rel="apple-touch-icon" href={iphone.src} />
 			</head>
-			<body className={[runReg.className, runBold.className].join(" ")}>
+			<body className={font.className}>
 				<AnimationProvider>
 					<Header />
 					<main className="layout">{children}</main>
