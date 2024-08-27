@@ -13,7 +13,7 @@ export const viewport: Viewport = {
 	maximumScale: 1,
 	userScalable: false,
 }
-
+import { Analytics } from "@vercel/analytics/react"
 export const metadata: Metadata = {
 	metadataBase: new URL("https://bittenlog.vercel.app"),
 	title: {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 			"성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는 개발 블로그 입니다.",
 	},
 	verification: {
-		google: "YVXKm27ccjmhfdeDUK6IxOkBx5XmDpjP0deNtjWEJwc",
+		google: "uBovfhvYdbEJvqXAGE44EfvyNswgNRSOmXXEApmtV_g",
 	},
 }
 const font = Noto_Sans_KR({
@@ -57,6 +57,7 @@ export default function RootLayout({
 					<main className="layout">{children}</main>
 					<Footer />
 				</AnimationProvider>
+				<Analytics />
 			</body>
 		</html>
 	)
