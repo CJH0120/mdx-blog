@@ -488,12 +488,7 @@ $border-bottom-color_1: var(--color-neutral-muted);
 	}
 	code {
 		font-size: 1em;
-		font-size: 12px;
-		padding: 0.2em 0.4em;
 		margin: 0;
-		font-size: 85%;
-		background-color: $background-color_13;
-		border-radius: 6px;
 		br {
 			display: none;
 		}
@@ -517,16 +512,7 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		font-size: 1em;
 		margin-top: 0;
 		margin-bottom: 0;
-		font-size: 12px;
-		word-wrap: normal;
-		margin-top: 0;
-		margin-bottom: 16px;
-		padding: 16px;
-		overflow: auto;
-		font-size: 85%;
-		line-height: 1.45;
-		background-color: $background-color_6;
-		border-radius: 6px;
+
 		code {
 			font-size: 100%;
 			display: inline;
@@ -699,8 +685,6 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		padding: 0;
 	}
 	p {
-		margin-top: 0;
-		margin-bottom: 10px;
 		margin-top: 0;
 		margin-bottom: 16px;
 	}
@@ -981,6 +965,7 @@ $border-bottom-color_1: var(--color-neutral-muted);
 		list-style-type: lower-roman;
 	}
 	div {
+		margin-bottom: 1rem;
 		> ol {
 			&:not([type]) {
 				list-style-type: decimal;

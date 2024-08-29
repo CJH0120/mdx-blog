@@ -9,7 +9,7 @@ path: how tomake blog
 
 ## package.json을 먼저 봐보자
 
-```
+```json
 "scripts": {
 		"dev": "next dev",
 		"build": "next build",
@@ -72,8 +72,7 @@ path: how tomake blog
 
 ##### parseMarkdownFile
 
-```
-
+```ts
 const parseMarkdownFile = async (
 	filePath: string
 ): Promise<MDX.Metadata | null> => {
@@ -104,7 +103,7 @@ const parseMarkdownFile = async (
 
 ##### useReadMdx
 
-```
+```ts
 export const useReadMdx = async (): Promise<MDX.Metadata[]> => {
 	const markdownDirectory = path.join(process.cwd(), "_markdown")
 	const filenames = await fs.readdir(markdownDirectory)
@@ -124,7 +123,7 @@ export const useReadMdx = async (): Promise<MDX.Metadata[]> => {
 
 ##### 메인 화면
 
-```
+```ts
 export default async function Home() {
 	const markdownFiles = await useReadMdx()
 	return (
@@ -156,7 +155,7 @@ export default async function Home() {
 
 ##### normalizePath
 
-```
+```ts
 const normalizePath = (str: string): string =>
 	str.trim().toLowerCase().replace(/\s+/g, "-")
 ```
@@ -165,7 +164,7 @@ const normalizePath = (str: string): string =>
 
 ##### useReadMdxFile
 
-```
+```ts
 export const useReadMdxFile = async (
 	url_path: string
 ): Promise<MDX.Props | null> => {
@@ -198,11 +197,11 @@ export const useReadMdxFile = async (
 }
 ```
 
-**\_markdown 디렉토리에서 해당 경로와 일치하는 파일을 찾아 메타데이터와 본문을 반환한다.**
+**`_markdown` 디렉토리에서 해당 경로와 일치하는 파일을 찾아 메타데이터와 본문을 반환한다.**
 
 ##### articel/[slug]
 
-```
+```ts
 import { useReadMdxFile as getFiles, useReadMdxTags } from "@/hooks/useReadMdx"
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -224,12 +223,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 		</>
 	)
 }
-
 ```
 
 **slug를 useReadMdxFile에 전달**
 
-```
+```markdown
 설명하기에 앞서 내 MDX 메타 파일 형식은 아래와 같다.
 
 title: 게시글 타이틀이름

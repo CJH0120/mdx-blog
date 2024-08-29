@@ -13,5 +13,6 @@ const CustomTag: Readonly<MDXComponents> = {
 	a: LinkTag,
 	img: ImagesTag,
 	code: Code,
+	p: (props) => <div {...props} />,
 }
 export default CustomTag
