@@ -56,6 +56,7 @@ export default function RootLayout({
 			<head>
 				<link rel="icon" href={favicon.src} sizes="any" />
 				<link rel="apple-touch-icon" href={iphone.src} />
+				<meta name="google-adsense-account" content="ca-pub-3268251593727486" />
 			</head>
 			<body className={font.className}>
 				<AnimationProvider>
