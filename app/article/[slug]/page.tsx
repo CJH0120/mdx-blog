@@ -1,9 +1,14 @@
 import { notFound } from "next/navigation"
 import MDXWrapper from "@/components/MDX/mdxWrapper"
-import { useReadMdxFile as getFiles, useReadMdxTags } from "@/hooks/useReadMdx"
+import {
+	useReadMdxFile as getFiles,
+	useReadMdxTags,
+	useReadMdx as getDetail,
+} from "@/hooks/useReadMdx"
 import { Metadata } from "next"
 import RecommendBox from "@/components/recommendBox"
 import styles from "./article.module.scss"
+import { MDX } from "@/interface"
 export async function generateMetadata({
 	params,
 }: {
@@ -22,15 +27,14 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-	const data = await getFiles(params.slug)
+	const data = (await getDetail(params.slug)) as MDX.DetailProps
 	if (!data) notFound()
-	const RecommendData = await useReadMdxTags(data.meta.tags ?? [], params.slug)
 	return (
 		<>
 			<MDXWrapper content={data.content} meta={data.meta} />
-			{!!RecommendData.length && (
+			{!!data.tags?.length && (
 				<div className={[styles["recommend-box-wrapper"]].join(" ")}>
-					{RecommendData.map((v) =>
+					{data.tags?.map((v) =>
 						Object.keys(v).map((key) => (
 							<RecommendBox key={key} recommendItem={v[key]} keyItem={key} />
 						))
