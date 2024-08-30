@@ -53,7 +53,8 @@ export const ArticleCard = ({
         ' '
       )}
       href={`/article/${path}`}
-      ref={ref}>
+      ref={ref}
+    >
       <div className={styles['card-content']}>
         <h3 className={styles['card-title']}>{title}</h3>
         {isMain && <span className={styles['card-description']}>{description}</span>}

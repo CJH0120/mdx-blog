@@ -1,7 +1,7 @@
 import { MDX } from '@/interface';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import CustomTag from '../semanticTag';
 import styles from './content.module.scss';
+import CustomTag from '../semanticTag';
 
 const MDXContent = ({ content, meta }: MDX.Props) => {
   return (

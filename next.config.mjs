@@ -1,25 +1,25 @@
-import createMDX from "@next/mdx"
+import createMDX from '@next/mdx';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
-	experimental: {
-		cssChunking: "loose",
-	},
-	// 정적일떄 사용하면 좋음
-	reactMaxHeadersLength: 1000,
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  experimental: {
+    cssChunking: 'loose',
+  },
+  // 정적일떄 사용하면 좋음
+  reactMaxHeadersLength: 1000,
 
-	images: {
-		remotePatterns: [
-			{
-				protocol: "https",
-				hostname: "**",
-			},
-		],
-	},
-}
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
+};
 
 const withMDX = createMDX({
-	options: {},
-})
+  options: {},
+});
 
-export default withMDX(nextConfig)
+export default withMDX(nextConfig);
