@@ -4,7 +4,6 @@ description: 블로그가 어떻게 구성되었는지, 어떻게 데이터를 �
 date: 2024.8.27
 thumbnail: image/thumbnail/20240827.webp
 path: how to make
-tag: next.js,react
 series: 블로그 제작기
 ---
 
@@ -74,30 +73,25 @@ series: 블로그 제작기
 ##### parseMarkdownFile
 
 ```ts
-const parseMarkdownFile = async (
-	filePath: string
-): Promise<MDX.Metadata | null> => {
-	const fileContents = await fs.readFile(filePath, "utf8")
-	const { data } = matter(fileContents)
+const parseMarkdownFile = async (filePath: string): Promise<MDX.Metadata | null> => {
+  const fileContents = await fs.readFile(filePath, 'utf8');
+  const { data } = matter(fileContents);
 
-	if (data.path) {
-		data.path = normalizePath(data.path as string)
-	}
+  if (data.path) {
+    data.path = normalizePath(data.path as string);
+  }
 
-	data.tags =
-		typeof data.tag === "string"
-			? data.tag.split(",").map((tag) => tag.trim())
-			: []
+  data.tags = typeof data.tag === 'string' ? data.tag.split(',').map((tag) => tag.trim()) : [];
 
-	return {
-		title: data.title,
-		description: data.description,
-		thumbnail: data.thumbnail,
-		date: data.date,
-		path: data.path,
-		tags: data.tags,
-	} as MDX.Metadata
-}
+  return {
+    title: data.title,
+    description: data.description,
+    thumbnail: data.thumbnail,
+    date: data.date,
+    path: data.path,
+    tags: data.tags,
+  } as MDX.Metadata;
+};
 ```
 
 **파일 경로를 입력받아 파일 내용을 읽고, gray-matter를 사용하여 메타데이터를 파싱합니다. 메타데이터를 MDX.Metadata 타입으로 반환**
@@ -106,18 +100,18 @@ const parseMarkdownFile = async (
 
 ```ts
 export const useReadMdx = async (): Promise<MDX.Metadata[]> => {
-	const markdownDirectory = path.join(process.cwd(), "_markdown")
-	const filenames = await fs.readdir(markdownDirectory)
+  const markdownDirectory = path.join(process.cwd(), '_markdown');
+  const filenames = await fs.readdir(markdownDirectory);
 
-	const markdownMetaData = await Promise.all(
-		filenames.map(async (filename) => {
-			const filePath = path.join(markdownDirectory, filename)
-			return parseMarkdownFile(filePath)
-		})
-	)
+  const markdownMetaData = await Promise.all(
+    filenames.map(async (filename) => {
+      const filePath = path.join(markdownDirectory, filename);
+      return parseMarkdownFile(filePath);
+    })
+  );
 
-	return markdownMetaData.filter((data): data is MDX.Metadata => !!data)
-}
+  return markdownMetaData.filter((data): data is MDX.Metadata => !!data);
+};
 ```
 
 **\_markdown 디렉토리 내의 모든 파일을 비동기로 읽고, 각 파일의 메타데이터를 parseMarkdownFile을 통해 추출합니다. 추출된 메타데이터에서 유효한 데이터만 필터링하여 리턴한다.**
@@ -126,18 +120,18 @@ export const useReadMdx = async (): Promise<MDX.Metadata[]> => {
 
 ```ts
 export default async function Home() {
-	const markdownFiles = await useReadMdx()
-	return (
-		<ul className={styles.main}>
-			{markdownFiles.map((v) => {
-				return (
-					<li key={v.path}>
-						<ArticleCard {...v} />
-					</li>
-				)
-			})}
-		</ul>
-	)
+  const markdownFiles = await useReadMdx();
+  return (
+    <ul className={styles.main}>
+      {markdownFiles.map((v) => {
+        return (
+          <li key={v.path}>
+            <ArticleCard {...v} />
+          </li>
+        );
+      })}
+    </ul>
+  );
 }
 ```
 
@@ -157,8 +151,7 @@ export default async function Home() {
 ##### normalizePath
 
 ```ts
-const normalizePath = (str: string): string =>
-	str.trim().toLowerCase().replace(/\s+/g, "-")
+const normalizePath = (str: string): string => str.trim().toLowerCase().replace(/\s+/g, '-');
 ```
 
 **경로를 정규화하여 일관된 형식으로 변환**
@@ -166,36 +159,34 @@ const normalizePath = (str: string): string =>
 ##### useReadMdxFile
 
 ```ts
-export const useReadMdxFile = async (
-	url_path: string
-): Promise<MDX.Props | null> => {
-	try {
-		const markdownDirectory = path.join(process.cwd(), "_markdown")
-		const filenames = await fs.readdir(markdownDirectory)
+export const useReadMdxFile = async (url_path: string): Promise<MDX.Props | null> => {
+  try {
+    const markdownDirectory = path.join(process.cwd(), '_markdown');
+    const filenames = await fs.readdir(markdownDirectory);
 
-		const normalizedUrlPath = normalizePath(url_path)
+    const normalizedUrlPath = normalizePath(url_path);
 
-		for (const filename of filenames) {
-			const filePath = path.join(markdownDirectory, filename)
-			const meta = await parseMarkdownFile(filePath)
+    for (const filename of filenames) {
+      const filePath = path.join(markdownDirectory, filename);
+      const meta = await parseMarkdownFile(filePath);
 
-			if (meta && meta.path === normalizedUrlPath) {
-				const fileContents = await fs.readFile(filePath, "utf8")
-				const { content } = matter(fileContents)
+      if (meta && meta.path === normalizedUrlPath) {
+        const fileContents = await fs.readFile(filePath, 'utf8');
+        const { content } = matter(fileContents);
 
-				return {
-					content,
-					meta,
-				}
-			}
-		}
+        return {
+          content,
+          meta,
+        };
+      }
+    }
 
-		return null
-	} catch (error) {
-		console.error("Error reading file:", error)
-		return null
-	}
-}
+    return null;
+  } catch (error) {
+    console.error('Error reading file:', error);
+    return null;
+  }
+};
 ```
 
 **`_markdown` 디렉토리에서 해당 경로와 일치하는 파일을 찾아 메타데이터와 본문을 반환한다.**
@@ -203,26 +194,22 @@ export const useReadMdxFile = async (
 ##### articel/[slug]
 
 ```ts
-import { useReadMdxFile as getFiles, useReadMdxTags } from "@/hooks/useReadMdx"
+import { useReadMdxFile as getFiles, useReadMdxTags } from '@/hooks/useReadMdx';
 
 export default async function Page({ params }: { params: { slug: string } }) {
-	const data = await getFiles(params.slug)
-	if (!data) notFound()
-	const RecommendData = await useReadMdxTags(data.meta.tags ?? [], params.slug)
-	return (
-		<>
-			<MDXWrapper content={data.content} meta={data.meta} />
-			{!!RecommendData.length && (
-				<div className={[styles["recommend-box-wrapper"]].join(" ")}>
-					{RecommendData.map((v) =>
-						Object.keys(v).map((key) => (
-							<RecommendBox key={key} recommendItem={v[key]} keyItem={key} />
-						))
-					)}
-				</div>
-			)}
-		</>
-	)
+  const data = await getFiles(params.slug);
+  if (!data) notFound();
+  const RecommendData = await useReadMdxTags(data.meta.tags ?? [], params.slug);
+  return (
+    <>
+      <MDXWrapper content={data.content} meta={data.meta} />
+      {!!RecommendData.length && (
+        <div className={[styles['recommend-box-wrapper']].join(' ')}>
+          {RecommendData.map((v) => Object.keys(v).map((key) => <RecommendBox key={key} recommendItem={v[key]} keyItem={key} />))}
+        </div>
+      )}
+    </>
+  );
 }
 ```
 

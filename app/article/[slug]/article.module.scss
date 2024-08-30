@@ -1,9 +1,25 @@
-@import "../../../styles//variables";
-.recommend-box-wrapper {
-	display: flex;
-	flex-direction: column;
-	border-top: 1px solid var(--border-color);
-	margin: 0 -15px;
-	& > div:not(:last-child) {
-	}
+@import '../../../styles//variables';
+.footer-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border-color);
+  margin: 0 -15px;
+  .footer-container {
+    padding: 30px 15px;
+    .footer-title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      .footer-title {
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        .footer-series {
+          color: var(--primary);
+        }
+      }
+    }
+  }
 }

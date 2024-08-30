@@ -1,68 +1,72 @@
-@import "./styles/_utils.scss";
-@import "./styles/_variables.scss";
+@import './styles/_utils.scss';
+@import './styles/_variables.scss';
 * {
-	box-sizing: border-box;
-	padding: 0;
-	margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 :root {
-	--primary: #ff6f61;
-
-	// 다크 모드 기본 변수
-	--dark-background: #121212;
-	--dark-text: #fff;
-	--dark-border: #495057;
-	--dark-icon: #343a40;
-	// 라이트 모드 기본 변수
-	--light-background: #fff;
-	--light-text: #000;
-	--light-border: #eee;
-	--light-icon: #000;
+  --primary: #ff6f61;
+  --black80: #868e96;
+  // 다크 모드 기본 변수
+  --dark-background: #121212;
+  --dark-text: #fff;
+  --dark-border: #495057;
+  --dark-icon: #343a40;
+  // 라이트 모드 기본 변수
+  --light-background: #fff;
+  --light-text: #000;
+  --light-border: #eee;
+  --light-icon: #000;
 }
 @media (prefers-color-scheme: dark) {
-	html {
-		--background-color: var(--dark-background);
-		--text-color: var(--dark-text);
-		--border-color: var(--dark-border);
-		--icon-color: var(--dark-icon);
-	}
+  html {
+    --background-color: var(--dark-background);
+    --text-color: var(--dark-text);
+    --border-color: var(--dark-border);
+    --icon-color: var(--dark-icon);
+  }
 }
 @media (prefers-color-scheme: light) {
-	html {
-		--background-color: var(--light-background);
-		--text-color: var(--light-text);
-		--border-color: var(--light-border);
-		--icon-color: var(--light-icon);
-	}
+  html {
+    --background-color: var(--light-background);
+    --text-color: var(--light-text);
+    --border-color: var(--light-border);
+    --icon-color: var(--light-icon);
+  }
+}
+html {
+  min-width: 375px;
+  font-size: 16px;
+  @include mobile {
+    font-size: 14px;
+  }
 }
 body {
-	display: flex;
-	flex-direction: column;
-	font-size: 16px;
-	@include mobile {
-		font-size: 14px;
-	}
-	min-height: 100vh;
-	color: var(--text-color);
-	background-color: var(--background-color);
-	.layout {
-		display: flex;
-		flex-direction: column;
-		padding: 40px 15px;
-		margin: 0 auto;
-		width: 100%;
-		max-width: 777px;
-		flex: 1;
-		@include mobile {
-			padding: 15px;
-		}
-	}
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		color: var(--text-color);
-	}
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  .layout {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 15px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 777px;
+    flex: 1;
+    @include mobile {
+      padding: 15px;
+    }
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--text-color);
+  }
 }

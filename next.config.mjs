@@ -3,8 +3,11 @@ import createMDX from "@next/mdx"
 const nextConfig = {
 	pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
 	experimental: {
-		// nextScriptWorkers: true,
+		cssChunking: "loose",
 	},
+	// 정적일떄 사용하면 좋음
+	reactMaxHeadersLength: 1000,
+
 	images: {
 		remotePatterns: [
 			{
