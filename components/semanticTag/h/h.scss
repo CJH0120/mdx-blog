@@ -1,0 +1,17 @@
+@keyframes moveGradientBg {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.item-text {
+  position: relative;
+  display: block;
+  background: linear-gradient(to right, #000, #8e44ad, #3498db);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: moveGradientBg 2s ease;
+  animation-direction: reverse;
+}
