@@ -22,11 +22,12 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://bittenlog.vercel.app'),
   title: {
     default: 'Bitten Dev',
-    template: '%s | Bitten',
+    template: '%s | Bitten Dev',
   },
+
   category: 'tech blog',
   description: '성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는 개발 블로그 입니다.',
-  authors: [{ name: 'Bitten', url: 'https://bittenlog.vercel.app' }],
+  authors: [{ name: '비튼', url: 'https://bittenlog.vercel.app' }],
 
   openGraph: {
     images: ogImage.src,

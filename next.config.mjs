@@ -5,6 +5,7 @@ const nextConfig = {
   experimental: {
     cssChunking: 'loose',
   },
+
   // 정적일떄 사용하면 좋음
   reactMaxHeadersLength: 1000,
 

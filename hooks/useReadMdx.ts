@@ -53,17 +53,17 @@ export const useReadMdx = async (pathUrl?: string): Promise<MDX.Metadata[] | MDX
   if (pathUrl && typeof current_content === 'string') {
     const currentMetaIdx = markdownMetaData.findIndex((data) => data.path === normalizePath(pathUrl)) as number;
 
-    let ddd = [];
+    let tagsArray = [];
     for (const tag of current_tag) {
       const resultSearchData = markdownMetaData.filter((data) => data.path !== normalizePath(pathUrl) && data.tags.includes(tag));
-      resultSearchData.length && ddd.push({ [tag]: resultSearchData });
+      resultSearchData.length && tagsArray.push({ [tag]: resultSearchData });
     }
 
     return {
       content: current_content,
       meta: markdownMetaData[currentMetaIdx],
       series: !!current_series ? markdownMetaData.filter((data) => data.series === (current_series as string)).reverse() : null,
-      tags: !!current_tag.length ? ddd : null,
+      tags: !!current_tag.length ? tagsArray : null,
     };
   } else {
     return markdownMetaData;

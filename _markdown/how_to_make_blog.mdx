@@ -1,243 +1,225 @@
 ---
-title: 블로그는 어떻게 만들어졌을까? I
-description: 블로그가 어떻게 구성되었는지, 어떻게 데이터를 가져오는지 설명합니다.
+title: 블로그는 어떻게 동작을 하는걸까?
+description: 블로그가 어떻게 구성되었는지, 어떤 방식으로 동작하는지를 설명합니다.
+date: 2024.9.1
+thumbnail: image/thumbnail/20240827.webp
+path: how to make
+series: 블로그 제작기
+tag: next.js
+---
+
+_이번 포스팅은 블로그에 사용한 라이브러리와 어떻게 MDX 파일을 불러오는지를 알아보겠습니다._
+
+#### 나의 니즈 파악하기
+
+1. 운영비용 0원
+2. 디자인 커스텀 쉽게
+3. SEO 최적화
+4. 페이지 빠른 로딩
+5. 데이터베이스 사용안하기
+
+**그럼 이제 알아보자**
+
+<br />
+
+## 1.운영비용 0원
+
+이건 쉽게 vercel 을 이용하면 된다.
+
+### Vercel란?
+
+Serverless 환경을 지원하는 호스팅 플랫폼이고, 라우트와 서버 측 코드가 Serverless Functions으로 배포가 된다. 무료 호스팅이 가능하며, 유로 버전으로 올렸을때 AWS 보다 비쌀수가 있으니 유의해야한다.
+
+## 2.디자인 커스텀 쉽게
+
+디자인은 뭣하든 간에 가장 중요하다고 생각한다. 각 서비스에 맞는 디자인이 필요하다. 하지만 나는 디자인을 잘 못하기에 [토스 블로그](https://toss.tech)를 레퍼런스로 잡고 만들었다. 추후 추가될 기능들은 따로 빼놓고 일단 내가 원하는 쪽으로 만들고, 덧붙일 예정이다
+
+## SEO 최적화 , 페이지 빠른 로딩
+
+리액트 기반으로 두개를 충족 시킬수 있는건 **Gatsby.js** , **Next.js** 두개라고 생각한다. 이중에 나는 Next.js를 선택했다.
+
+#### 선택한 이유
+
+1. 현 실무에서 사용하는 프레임워크이다.
+2. AppRouter 함수들을 더 학습해야한다.
+
+## 데이터베이스 사용안하기
+
+MDX를 사용하여 파일 기반의 콘텐츠 관리 방식을 선택하면 개발과 유지보수 측면에서 유리하다. 데이터베이스의 복잡함을 피하고 유연하게 콘텐츠를 관리를 할 수 있다.
+
+## 어떤 라이브러를 사용했을까?
+
+**package.json**
+
+```json
+"dependencies": {
+    "@next/third-parties": "^14.2.7",
+    "@vercel/analytics": "^1.3.1",
+    "next": "14.2.5",
+    "prismjs": "^1.29.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+
+"devDependencies": {
+    "@mdx-js/loader": "^3.0.1",
+    "@mdx-js/react": "^3.0.1",
+    "@next/mdx": "^14.2.7",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "^20.16.2",
+    "@types/prismjs": "^1.26.4",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.5",
+    "gray-matter": "^4.0.3",
+    "image-size": "^1.1.1",
+    "next-mdx-remote": "^5.0.0",
+    "sass": "^1.77.8",
+    "sharp": "^0.33.5",
+    "typescript": "^5.5.4"
+}
+```
+
+### prismjs
+
+바로 위에도 적용되어 있듯이 MDX의 code의 문법을 강조하는 라이브러리이다.
+
+### @mdx
+
+React 애플리케이션에서 MDX 파일을 렌더링할 수 있게 도와주는 라이브러리이다. 이 블로그에 가장 중요한 역할을 하는 라이브러리.
+
+### next-mdx-remote
+
+MDX 라이브러리를 동적으로 사용할수있게 해주는 라이브러리이다.
+
+### gray-matter
+
+MDX 파일을 포함한 마크다운 파일에서 `메타데이터` 와 `컨텐츠 내용`을 추출하는데 사용되는 라이브러리.
+
+**gray-matter 사용방법**
+
+```ts
+import matter from 'gray-matter';
+
+/* 
+MDX
+---
+title: 블로그는 어떻게 구성되어 있을까
+description: 블로그가 어떻게 구성되었는지, 어떤 방식으로 동작하는지를 설명합니다.
 date: 2024.8.27
 thumbnail: image/thumbnail/20240827.webp
 path: how to make
 series: 블로그 제작기
 ---
+안녕하세요 
 
-## package.json을 먼저 봐보자
 
-```json
-"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint"
-	},
-	"dependencies": {
-		"google": "link:@next/third-parties/google",
-		"next": "14.2.5",
-		"react": "^18",
-		"react-dom": "^18"
-	},
-	"devDependencies": {
-		"@mdx-js/loader": "^3.0.1",
-		"@mdx-js/react": "^3.0.1",
-		"@next/mdx": "^14.2.5",
-		"@types/mdx": "^2.0.13",
-		"@types/node": "^20",
-		"@types/react": "^18",
-		"@types/react-dom": "^18",
-		"eslint": "^8",
-		"eslint-config-next": "14.2.5",
-		"gray-matter": "^4.0.3",
-		"next-mdx-remote": "^5.0.0",
-		"sass": "^1.77.8",
-		"typescript": "^5",
-		"highlight.js": "^11.10.0",
-		"image-size": "^1.1.1",
-		"sharp": "^0.33.5"
-	}
+//matter types
+
+const content: string;
+
+const data: {
+    [key: string]: any;
+}
+*/
+
+const { data, content } = matter(fileContents);
 ```
 
-블로그 자체에 기능도 없고, 해서 next.js가 제공하는 라이브러리 제외하고, MDX, sass , highlight , image-size, sharp ,gray-matter 6 개가 있다. 그러면 6개를 **하나 하나씩** 알아보자.
-
-- ### MDX
-
-  - MDX 파일을 JavaScript로 변환하는 컴파일러이다.
-  - webPack을 사용하는 경우 _@mdx-js/loader_ 를 사용하는 것이 유용하다.
-  - 리액트 와 MDX를 결합하기 위해서는 _@mdx-js/react_ 라이브러리의 공급자를 필요료한다.
-
-- ### SASS
-
-  - SCSS는 CSS의 전처리기 중 하나로, CSS의 기능을 확장하여 다양한 스타일링 작업을 용이하게 해준다.
-  - 변수, 중첩 규칙, 믹스인, 상속 등 CSS에 없는 추가 기능을 제공하여, 스타일 시트를 더 효율적으로 작성하고 유지보수할 수 있다.
-
-- ### highlight.js
-
-  - 다양한 프로그래밍 언어의 문법을 인식하고, 코드 블록을 색상으로 강조하여 가독성을 높여주는 라이브러리.
-
-- ### image-size
-  - 이미지 크기의 정보를 추출 하는 라이브러리
-- ### sharp
-  - Next.js Image 이미지를 적용하려면 webp로 자동 변환이 되기 위한 라이브러리.
-- ### gray-matter
-  - Markdown 파일에서 메타데이터를 추출하고 처리하는 데 사용된다.
-
-## 메인 페이지내 에서 데이터를 어떻게 불러오는걸까?
-
-파일 시스템에 접근하하여 _next-mdx-remote_ 를 사용하여 메인 화면 에서는 전체를 한번에 다 불러온다. 백엔드에서 N개씩 빼오는것보다. SSG식 렌더링이라서 파일을 한번에 다 읽어 오는게 효율적이라 생각해서 그렇게 구상을 했다. 그러면 코드를 한번 봐보자.
-
-##### parseMarkdownFile
+#### gray-matter result
 
 ```ts
-const parseMarkdownFile = async (filePath: string): Promise<MDX.Metadata | null> => {
-  const fileContents = await fs.readFile(filePath, 'utf8');
-  const { data } = matter(fileContents);
+console.log(data)
+=>{
+  title: '블로그는 어떻게 구성되어 있을까',
+  description: '블로그가 어떻게 구성되었는지, 어떤 방식으로 동작하는지를 설명합니다.',
+  date: '2024.8.27',
+  thumbnail: 'image/thumbnail/20240827.webp',
+  path: 'how to make',
+  series: '블로그 제작기'
+}
 
-  if (data.path) {
-    data.path = normalizePath(data.path as string);
-  }
-
-  data.tags = typeof data.tag === 'string' ? data.tag.split(',').map((tag) => tag.trim()) : [];
-
-  return {
-    title: data.title,
-    description: data.description,
-    thumbnail: data.thumbnail,
-    date: data.date,
-    path: data.path,
-    tags: data.tags,
-  } as MDX.Metadata;
-};
+console.log(content)
+=>
+안녕하세요
 ```
 
-**파일 경로를 입력받아 파일 내용을 읽고, gray-matter를 사용하여 메타데이터를 파싱합니다. 메타데이터를 MDX.Metadata 타입으로 반환**
+`data`는 오브젝트형식으로 리턴하고, `content`는 스트링으로 리턴을한다
 
-##### useReadMdx
+### image-size
+
+로컬 이미지의 크기를 알려주는 라이브러리로써, 이미지 최적화를 위해 사용하였다.
+
+## sass
+
+Sass는 `CSS` **전처리기**로, `CSS` 기능을 확장하고, 작성과 유지 보수를 더 쉽게 사용할수있어, 내가 애용중인 라이브러리이다
+
+## 어떤 함수를 사용했을까
+
+자세한 코드는 [useReadMdx.tsx](https://github.com/CJH0120/mdx-blog/blob/main/hooks/useReadMdx.ts) 여기서 확인바랍니다.
 
 ```ts
-export const useReadMdx = async (): Promise<MDX.Metadata[]> => {
+export const useReadMdx = async (pathUrl?: string): Promise<MDX.Metadata[] | MDX.DetailProps> => {
   const markdownDirectory = path.join(process.cwd(), '_markdown');
   const filenames = await fs.readdir(markdownDirectory);
 
-  const markdownMetaData = await Promise.all(
+  let current_content = undefined;
+  let current_tag: string[] = [];
+  let current_series: string | undefined = undefined;
+
+  const markdownMetaData: MDX.Metadata[] = await Promise.all(
     filenames.map(async (filename) => {
       const filePath = path.join(markdownDirectory, filename);
-      return parseMarkdownFile(filePath);
-    })
-  );
-
-  return markdownMetaData.filter((data): data is MDX.Metadata => !!data);
-};
-```
-
-**\_markdown 디렉토리 내의 모든 파일을 비동기로 읽고, 각 파일의 메타데이터를 parseMarkdownFile을 통해 추출합니다. 추출된 메타데이터에서 유효한 데이터만 필터링하여 리턴한다.**
-
-##### 메인 화면
-
-```ts
-export default async function Home() {
-  const markdownFiles = await useReadMdx();
-  return (
-    <ul className={styles.main}>
-      {markdownFiles.map((v) => {
-        return (
-          <li key={v.path}>
-            <ArticleCard {...v} />
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-```
-
-**메인 페이지에서 useReadMdx를 호출하여 메타데이터를 가져오고, 각 메타데이터를 ArticleCard 컴포넌트에 넘겨서 렌더링**
-
-#### 흐름 설명
-
-1. 최상단에있는 \_markdown 디렉토리 내의 모든 파일을 비동기로 하나하나 파일을 읽어온다.
-2. parseMarkdownFile에게 파일명을 넘겨주며 gray-matter 을 사용하여 MDX의 메타데이터를 불러와 리턴을 시켜준다
-3. 모든 비동기 작업이 끝나면 타입 가드를 써줘서 모든 값을 리턴해준다.
-4. 메인 페이지에서는 MDX내용이 필요 없으며, 메타 데이터만 필요하기에 컴포넌트에 데이터를 넘겨준다.
-
-**위와 같이 간단하게 네줄로 나타낼수있고, 메인 페이지는 이렇게 구성이된다.**
-
-## 그러면 블로그 게시글에서는 어떻게 데이터를 가져오는걸까?
-
-##### normalizePath
-
-```ts
-const normalizePath = (str: string): string => str.trim().toLowerCase().replace(/\s+/g, '-');
-```
-
-**경로를 정규화하여 일관된 형식으로 변환**
-
-##### useReadMdxFile
-
-```ts
-export const useReadMdxFile = async (url_path: string): Promise<MDX.Props | null> => {
-  try {
-    const markdownDirectory = path.join(process.cwd(), '_markdown');
-    const filenames = await fs.readdir(markdownDirectory);
-
-    const normalizedUrlPath = normalizePath(url_path);
-
-    for (const filename of filenames) {
-      const filePath = path.join(markdownDirectory, filename);
       const meta = await parseMarkdownFile(filePath);
-
-      if (meta && meta.path === normalizedUrlPath) {
+      if (!!pathUrl && normalizePath(pathUrl) === meta.path) {
         const fileContents = await fs.readFile(filePath, 'utf8');
-        const { content } = matter(fileContents);
-
-        return {
-          content,
-          meta,
-        };
+        const { content, data } = matter(fileContents);
+        current_content = content;
+        current_tag = data.tags;
+        current_series = data.series;
       }
+      return { ...meta };
+    })
+  ).then((data) => data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+
+  if (pathUrl && typeof current_content === 'string') {
+    const currentMetaIdx = markdownMetaData.findIndex((data) => data.path === normalizePath(pathUrl)) as number;
+
+    let tagsArray = [];
+    for (const tag of current_tag) {
+      const resultSearchData = markdownMetaData.filter((data) => data.path !== normalizePath(pathUrl) && data.tags.includes(tag));
+      resultSearchData.length && tagsArray.push({ [tag]: resultSearchData });
     }
 
-    return null;
-  } catch (error) {
-    console.error('Error reading file:', error);
-    return null;
+    return {
+      content: current_content,
+      meta: markdownMetaData[currentMetaIdx],
+      series: !!current_series ? markdownMetaData.filter((data) => data.series === (current_series as string)).reverse() : null,
+      tags: !!current_tag.length ? tagsArray : null,
+    };
+  } else {
+    return markdownMetaData;
   }
 };
 ```
 
-**`_markdown` 디렉토리에서 해당 경로와 일치하는 파일을 찾아 메타데이터와 본문을 반환한다.**
+### 코드 설명
 
-##### articel/[slug]
+전체적으로 봤을때 pathUrl 유무에 따라 로직이 변경된다.
 
-```ts
-import { useReadMdxFile as getFiles, useReadMdxTags } from '@/hooks/useReadMdx';
+#### 공통
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const data = await getFiles(params.slug);
-  if (!data) notFound();
-  const RecommendData = await useReadMdxTags(data.meta.tags ?? [], params.slug);
-  return (
-    <>
-      <MDXWrapper content={data.content} meta={data.meta} />
-      {!!RecommendData.length && (
-        <div className={[styles['recommend-box-wrapper']].join(' ')}>
-          {RecommendData.map((v) => Object.keys(v).map((key) => <RecommendBox key={key} recommendItem={v[key]} keyItem={key} />))}
-        </div>
-      )}
-    </>
-  );
-}
-```
+`_markdown`폴더안에 있는 파일을 전체 읽어온 후 전체 파일을 메타데이터 기준으로 최신순으로 정렬한다.
 
-**slug를 useReadMdxFile에 전달**
+#### pathUrl 있을떄
 
-```markdown
-설명하기에 앞서 내 MDX 메타 파일 형식은 아래와 같다.
+포스팅 상세를 보는거기에 해당 path에 따른 메타데이터 , 같은 태그의 게시물, 시리즈 게시물, 해당 게시물의 대한 내용을 리턴 값으로 받는다.
 
-title: 게시글 타이틀이름
+#### pathUrl 없을때
 
-description: 게시글 설명
+pathUrl이 없다는건, 메인 화면 이라는 뜻이기에 전체 메타데이터 만 리턴해준다
 
-date: 날짜
+### 마무리
 
-thumbnail: 사진
-
-tag:게시글 태그
-
-path: 게시글 path
-```
-
-#### 코드 설명
-
-1.  **articel/[slug]** 에서는 slug를 useReadMdxFile에 path를 넘겨준다.
-2.  useReadMdxFile에서는 path를 받은후 normalizePath 함수에서 정규식을 통해 알맞게 변환해준다
-3.  파일 전체에서 빼낸 메타 파일에서 path와 맞는걸 찾는다.
-4.  **articel/[slug]** 다시 돌아와 데이터를 뿌려주고 없으면 404 페이지를 띄워준다
-
-오늘은 블로그에서 데이터를 어떻게 불러오는지, 그리고 이를 위해 어떤 라이브러리를 사용했는지 알아보았습니다. 다음 게시글에서는 아직 설명하지 않은 useReadMdxTags 및 Next.js 제공 함수에 대해 알아 볼 예정이다.
-
-전체 코드는 [깃허브](https://github.com/CJH0120/mdx-blog) 에 나와있으니 **folder structure** 어떻게 되어 있는지 한번 확인해보시고 피드백을 주면 좋겠다.
+이번 포스팅은 사용한 라이브러리와 어떻게 MDX 파일을 불러오는지를 알아보았고, 다음 포스팅부터는 `Next.js`의 함수를 이용해서 어떻게 최적화했는지를 알아보겠습니다.

@@ -6,6 +6,11 @@
 .pnp.js
 .yarn/install-state.gz
 
+.git 
+.vscode
+.next
+node_modules
+
 # testing
 /coverage
 

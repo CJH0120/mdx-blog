@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const data = (await getDetail(params.slug)) as MDX.DetailProps;
-  if (!data) notFound();
+  if (!data.content) notFound();
   return (
     <>
       <MDXWrapper content={data.content} meta={data.meta} />
