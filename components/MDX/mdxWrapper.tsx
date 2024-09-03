@@ -15,8 +15,7 @@ const MDXWrapper = ({ content, meta }: MDX.Props) => {
               aspectRatio: '16/9',
               borderRadius: '10px',
               overflow: 'hidden',
-            }}
-          >
+            }}>
             <Image
               blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
               placeholder="blur"
