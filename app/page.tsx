@@ -12,7 +12,7 @@ export default async function Home() {
     <ul className={styles.main}>
       {markdownFiles?.map((v, idx) => {
         return (
-          <li key={v.path + idx}>
+          <li key={v.path}>
             <ArticleCard {...v} />
           </li>
         );

@@ -53,8 +53,7 @@ export const ArticleCard = ({
         ' '
       )}
       href={`/article/${path}`}
-      ref={ref}
-    >
+      ref={ref}>
       <div className={styles['card-content']}>
         <h3 className={styles['card-title']}>{title}</h3>
         {isMain && <span className={styles['card-description']}>{description}</span>}
@@ -66,10 +65,13 @@ export const ArticleCard = ({
           style={{
             objectFit: 'cover',
           }}
+          sizes="(max-width: 666px) 120px, 30vw"
+          draggable={false}
           src={`/${thumbnail}`}
           alt={title}
+          quality={75}
           fill
-          quality={85}
+          priority
           blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
           placeholder="blur"
         />

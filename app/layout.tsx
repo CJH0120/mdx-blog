@@ -1,22 +1,16 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.scss';
+
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import AnimationProvider from '@/provider/AnimationProvider';
 import iphone from './apple-touch-icon.png';
 import favicon from './favicon.ico';
 import ogImage from '@/public/image/main_og.png';
-import { Noto_Sans_KR } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 import { Analytics } from '@vercel/analytics/react';
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-};
+import localFont from 'next/font/local';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bittenlog.vercel.app'),
@@ -41,10 +35,15 @@ export const metadata: Metadata = {
     google: 'uBovfhvYdbEJvqXAGE44EfvyNswgNRSOmXXEApmtV_g',
   },
 };
-const font = Noto_Sans_KR({
-  weight: ['300', '400', '500', '700', '800', '900'],
-  subsets: ['latin'],
-  display: 'swap',
+
+const qSoftLight = localFont({
+  src: [
+    {
+      path: '../public/assets/fonts/Roboto.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
 });
 export default function RootLayout({
   children,
@@ -52,13 +51,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko ">
+    <html lang="ko" className={qSoftLight.className}>
       <head>
         <link rel="icon" href={favicon.src} sizes="any" />
         <link rel="apple-touch-icon" href={iphone.src} />
         <meta name="google-adsense-account" content="ca-pub-3268251593727486" />
       </head>
-      <body className={font.className}>
+      <body>
         <AnimationProvider>
           <Header />
           <main className="layout">{children}</main>

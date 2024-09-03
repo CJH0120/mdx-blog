@@ -6,6 +6,7 @@ import styles from './article.module.scss';
 import { MDX } from '@/interface';
 import { SeriesWrapper } from '@/components/seriesSection';
 import { TagWrapper } from '@/components/tagSection';
+
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const data = await getFiles(params.slug);
   if (!data) return {};
