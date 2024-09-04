@@ -24,6 +24,7 @@ const MDXWrapper = ({ content, meta }: MDX.Props) => {
               style={{
                 objectFit: 'cover',
               }}
+              sizes="(max-width: 666px) 80vw,100vw"
               draggable={false}
               src={`/${meta.thumbnail}`}
               alt={meta.title}

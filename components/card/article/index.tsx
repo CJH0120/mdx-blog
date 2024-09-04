@@ -65,13 +65,12 @@ export const ArticleCard = ({
           style={{
             objectFit: 'cover',
           }}
-          sizes="(max-width: 666px) 120px, 30vw"
           draggable={false}
           src={`/${thumbnail}`}
           alt={title}
-          quality={75}
+          sizes="240px"
           fill
-          priority
+          loading="lazy"
           blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
           placeholder="blur"
         />
