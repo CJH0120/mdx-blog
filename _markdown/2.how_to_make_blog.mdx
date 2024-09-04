@@ -1,11 +1,10 @@
 ---
-title: 블로그는 어떻게 동작을 하는걸까?
+title: 블로그가 어떻게 동작하는지 알아보기 1탄
 description: 블로그가 어떻게 구성되었는지, 어떤 방식으로 동작하는지를 설명합니다.
 date: 2024.9.1
 thumbnail: image/thumbnail/th_2.webp
 path: how to make
 series: 블로그 제작기
-tag: next.js
 ---
 
 _이번 포스팅은 블로그에 사용한 라이브러리와 어떻게 MDX 파일을 불러오는지를 알아보겠습니다._
@@ -220,6 +219,6 @@ export const useReadMdx = async (pathUrl?: string): Promise<MDX.Metadata[] | MDX
 
 pathUrl이 없다는건, 메인 화면 이라는 뜻이기에 전체 메타데이터 만 리턴해준다
 
-### 마무리
+### 마치면서
 
-이번 포스팅은 사용한 라이브러리와 어떻게 MDX 파일을 불러오는지를 알아보았고, 다음 포스팅부터는 `Next.js`의 함수를 이용해서 어떻게 최적화했는지를 알아보겠습니다.
+이번 포스팅은 사용한 라이브러리와 어떻게 MDX 파일을 불러오는지를 알아보았고, 다음 포스팅부터는 `Next.js`의 함수를 이용해서 어떻게 사용했는지 알아보겠습니다.

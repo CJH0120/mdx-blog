@@ -19,6 +19,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     keywords: [...(data.meta.tags ?? [])],
   };
 }
+export async function generateStaticParams() {
+  const posts = ((await getDetail()) as MDX.Metadata[]) ?? [];
+  return posts?.map((post) => ({
+    slug: post.path,
+  }));
+}
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const data = (await getDetail(params.slug)) as MDX.DetailProps;
