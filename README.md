@@ -1,4 +1,5 @@
-MDX Blog
+
+## [Blog](https://bittenlog.vercel.app)
 
 ```
 blog
