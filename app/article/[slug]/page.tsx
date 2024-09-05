@@ -14,10 +14,21 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     title: data.meta.title,
     description: data.meta.description,
     openGraph: {
+      title: data.meta.title,
+      description: data.meta.description,
+      siteName: 'Bitten Dev',
+      type: 'article',
       images: data.meta.thumbnail,
       url: `https://bittenlog.vercel.app/article/${params.slug}`,
-      type: 'article',
     },
+
+    twitter: {
+      title: data.meta.title,
+      description: data.meta.description,
+      images: data.meta.thumbnail,
+      card: 'summary_large_image',
+    },
+
     keywords: [...(data.meta.tags ?? [])],
   };
 }

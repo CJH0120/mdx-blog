@@ -18,6 +18,13 @@ export const metadata: Metadata = {
     default: 'Bitten Dev',
     template: '%s | Bitten Dev',
   },
+
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  } as Viewport,
+
   category: 'tech blog',
   description: '성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는  개발 블로그 입니다.',
   authors: [{ name: '비튼', url: 'https://bittenlog.vercel.app' }],
