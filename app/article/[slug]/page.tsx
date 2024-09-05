@@ -15,6 +15,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     description: data.meta.description,
     openGraph: {
       images: data.meta.thumbnail,
+      url: `https://bittenlog.vercel.app/article/${params.slug}`,
+      type: 'article',
     },
     keywords: [...(data.meta.tags ?? [])],
   };

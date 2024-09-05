@@ -1,0 +1,242 @@
+---
+title: 블로그가 어떻게 동작하는지 알아보기 - SEO
+description: Next.js 14 App Router 에서 SEO 최적화 방법을 설명합니다.
+date: 2024.9.5
+thumbnail: image/thumbnail/th_4.avif
+path: next seo
+series: 블로그 제작기
+tag: SEO
+---
+
+# SEO를 알아보자 Search Engine Optimization
+
+SEO란 한국말로 검색 엔진 최적화 이다. 네이버나 구글에서 검색을 했을때 검색 엔진이 더 잘 찾을수 있도록 도와준다.
+
+SEO에는 3가지 종류가있다.
+
+- Technical SEO
+- On-Page SEO
+- Off-page SEO
+
+### Technical SEO 이란
+
+검색을 하기위해 검색엔진 봇이 돌아다니는데, 봇들이 쉽게 크롤링하고 인덱싱을 할수있게 기술적 요소를 최적화하는 작업이다
+예시로는 사이트 로딩 속도, 모바일 친화성,SSL 인증서 , 사이트맵 등이있다.
+
+### On-Page SEO 이란
+
+웹사이트 내부 콘텐츠,소스를 최적화하는 작업이다.
+예시로는 키워드, 메타 태그 ,이미지 최적화 , 콘텐츠 품질이있다.
+
+### Off-page SEO 이란
+
+웹사이트 외부에서 최적화 하는 것으로 다른 웹사이트들이 내 사이트의 링크를 걸면 사이트의 권위를 높이고 검색 엔진에서 높은 점수를 얻게된다.
+
+웹 개발자가 할수 있는 최적화 작업은 3개중 2가지가있다. 이제 그 2가지를 알아보자
+
+## Technical SEO 최적화 작업을 알아보자.
+
+전 글에서도 사이트 로딩 속도를 언급했었는데, 구글에서 제공하는 `Lighthouse`의 `Performance`가 사이트 속도 지표이다.
+
+`Lighthouse`를 사용하면 사이트의 성능을 분석하고 개선할 수 있는 구체적인 항목들을 확인할 수 있다.
+
+![Performance](/image/post/lighthousepc.png)
+
+#### 위 사진 은 제 블로그 Performance 점수이다.
+
+<br />
+
+Performance 세부 항목에는 FCP, LCP, TBT, CLS, SI 총 5개로 나눠진다. 이제 하나 하나씩 알아보자
+
+- FCP : 웹 페이지에서 첫 번째 콘텐츠가 렌더링되기까지 걸리는 시간
+- LCP : 페이지에서 가장 큰 콘텐츠가 렌더링되는 시간
+- TBT : 페이지가 로드되는 동안 사용자가 상호작용할 수 없는 시간의 총합
+- CLS : 페이지 로드 중 레이아웃이 얼마나 자주, 얼마나 크게 이동하는지를 측정
+- SI : 페이지가 시각적으로 완성되는 데 걸리는 시간
+
+**현 블로그는 SSG로 렌더링이 되기 때문에 빠를 수 밖에 없다.**
+
+#### Next.js App Router 에서 SiteMap 생성방법을 알아보자
+
+[sitemap.xml](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap) 공식문서를 보면 `ts` => `XML` 으로 포멧팅을 쉽게 할수있도록 만들어놨다
+
+```xml
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://acme.com</loc>
+    <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>1</priority>
+  </url>
+  <url>
+    <loc>https://acme.com/about</loc>
+    <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://acme.com/blog</loc>
+    <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>
+```
+
+이런 식으로 간단한 페이지들은 손수 써도 된다. 하지만 블로그와 같이 여러 개의 게시글을 올리는 사이트들은 하나하나 입력하게 되면 관리가 전혀 안 되기 때문에 Next.js에서 제공한 함수를 써보자
+
+```ts
+import type { MetadataRoute } from 'next';
+import { useReadMdx as ReadMDX } from '../hooks/useReadMdx';
+import { MDX } from '@/interface';
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = 'https://bittenlog.vercel.app';
+
+  const posts: MDX.Metadata[] = (await ReadMDX()) as MDX.Metadata[];
+  const indexPage = {
+    url: baseUrl,
+    lastModified: new Date().toISOString().split('T')[0],
+  };
+  const article = posts?.map((post) => {
+    return {
+      url: `${baseUrl}/article/${post.path}`,
+      lastModified: new Date(post.date).toISOString().split('T')[0],
+    };
+  });
+
+  return [indexPage, ...article];
+}
+```
+
+`app/sitemap.ts`를 생성한후 XMl 포멧팅을 하기 위해 위 코드 기본 양식만 맞춰주기만 하면
+
+[블로그 Sitemap](https://bittenlog.vercel.app/sitemap.xml) 처럼 `output`이 나온다.
+
+> 이게 끝이야?
+
+기본적인 설정은 끝이지만 `sitamp.xml`은 페이지를 쓰는 한계가있다.
+`최대 50,000개의 Sitemap을 포함할 수 있지만 크기는 50MB(52,428,800바이트)를 초과할 수 없습니다`라고 명시되어있다
+
+그럼 다시 공식문서를 보고 응용을 해보자
+
+```ts
+import type { MetadataRoute } from 'next';
+
+export async function generateSitemaps() {
+  return [{ id: 'test1' }, { id: 'test2' }, { id: 'test3' }];
+}
+
+export default async function sitemap({ id }: { id: string }): Promise<MetadataRoute.Sitemap> {
+  const products = new Array(5000).fill(null).map((_, index) => ({
+    id: index + 1,
+    date: new Date().toISOString(),
+  }));
+  return products.map((product) => ({
+    url: `http://localhost:3000/product/${product.id}`,
+    lastModified: product.date,
+  }));
+}
+```
+
+**페이지에 사용되는 ID 목록을 생성하고, ID에 따른 사이트맵을 생성한다.**
+
+```json
+ ● /sitemap/[__metadata_id__]           0 B                0 B
+    ├ /sitemap/test1.xml
+    ├ /sitemap/test2.xml
+    └ /sitemap/test3.xml
+```
+
+이렇게하면 SiteMap이 여러개 생성이되고 파일 한개당 5000개씩 채워져서 `output`으로 나온 SiteMap을 구글에 등록하면된다.
+이 블로그는 50000만개 정도의 게시글을 못올릴꺼같아 간단하게 적용했다
+
+## On-Page SEO 최적화 작업을 알아보자.
+
+### 메타 태그
+
+사이트 링크를 공유하든 검색창에서 처음으로 마주하는 게 메타 태그여서 메타 태그는 가장 중요하다.그러면 Next. JS에서 메타 태그를 어떻게 간단히(?) 설정할 수 있는지 알아보자
+
+다시 [공식문서](https://nextjs.org/docs/app/building-your-application/optimizing/metadata)로 가보자
+
+```js
+export const metadata = {
+  title: 'Blog',
+  openGraph: {
+    title: 'Blog',
+  },
+};
+```
+
+위와 같은 형식으로 되어있다 이제 블로그에 적용해보자
+
+```ts
+export const metadata: Metadata = {
+  metadataBase: new URL('https://bittenlog.vercel.app'),
+  title: {
+    default: 'Bitten Dev',
+    template: '%s | Bitten Dev',
+  },
+
+  category: 'tech blog',
+  description: '성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는  개발 블로그 입니다.',
+  authors: [{ name: '비튼', url: 'https://bittenlog.vercel.app' }],
+
+  openGraph: {
+    images: ogImage.src,
+    title: {
+      default: 'Bitten Dev',
+      template: '%s | Bitten',
+    },
+    description: '성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는 개발 블로그 입니다.',
+  },
+  verification: {
+    google: 'uBovfhvYdbEJvqXAGE44EfvyNswgNRSOmXXEApmtV_g',
+  },
+};
+```
+
+**app/layout.tsx**
+
+블로그에는 기본적인것들만 셋팅해놧다. `title.template`을 보면 `%s | Bitten Dev` 이라고 되어있는데 %s 는 변수를 나타내는것이다.
+
+```ts
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const data = await getFiles(params.slug);
+  if (!data) return {};
+  return {
+    title: data.meta.title,
+    description: data.meta.description,
+    openGraph: {
+      images: data.meta.thumbnail,
+    },
+    keywords: [...(data.meta.tags ?? [])],
+  };
+}
+```
+
+**app/article[slug]/page.tsx** 에서 Metadata를 설정 해논 코드이다.
+
+이런식으로 title만 정의해 놓으면 | Bitten Dev는 계속 뒤에 따라다닌다.
+title을 정하지 않으면 `title.default`의 값인 Bitten Dev로 나오게된다.
+
+**category** 태그는 웹사이트의 종류나 범주를 명시하면 된다.
+**description** 태그는 웹사이트의 설명을 적으면된다. 검색시 미리보기로 보여준다.
+**authors** 태그는 필수는 아니지만, 작성자의 정보를 추가하면 웹 문서의 출처를 명확히 할수있다.
+**keywords** 태그는 이제 사용안한다. 구글에서 안한다고 [명시](https://developers.google.com/search/blog/2009/09/google-does-not-use-keywords-meta-tag?hl=ko)해놨다.
+
+#### openGrap
+
+소셜 미디어에서 가장 먼저 보여지는 항목이다.
+**title** , **description**은 똑같이 쓰면된다. 원래 안써도 위에써있는 내용을 상속받아 됐었는데, 이번에 테스트할때 안되있어서 적용해놨다.
+
+**images** 가 가장 중요하다. 파일 형식은 JPEG, PNG, GIF 을 지원 하고 PNG로 하는게 좋고, 해상도는 원래 **200 X 200** 이였지만 최근에는 **1200 X 630** 을 권장하기에 후자로 설정하는게 좋다.
+
+## Off-page SEO 최적화 작업을 알아보자
+
+이건 마케팅이 중요하고 협력사끼리 서로 링크를 공유하여 탄탄히 검색엔진에 순위를 올리는 방식인데. 공유가 많을 만한 글이 아닌 이상 올리기 어렵고, **백링크**를 구매하여 올리기도 한다.
+
+다른 웹사이트에 링크를 남발할 수도 있고, 구매할 수도 있는데 이상한 웹사이트에 남발하게 되면 오히려 본인 웹사이트가 안 좋은 영향을 받을 수도 있다. 최적화에 가장 좋은 방법은 사실상 돈 주고 업체에 맡기는 것이다.
+
+### 마치면서
+
+오늘은 Next.js의 함수를 이용하여 SEO 최적화를 알아보았다. 앞으로는 CS 기초 다지기를 들어갈것이기에, 개발 CS 관련 글을 작성할것이다.

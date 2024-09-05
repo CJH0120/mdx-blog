@@ -18,7 +18,6 @@ export const metadata: Metadata = {
     default: 'Bitten Dev',
     template: '%s | Bitten Dev',
   },
-
   category: 'tech blog',
   description: '성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는  개발 블로그 입니다.',
   authors: [{ name: '비튼', url: 'https://bittenlog.vercel.app' }],
@@ -29,6 +28,7 @@ export const metadata: Metadata = {
       default: 'Bitten Dev',
       template: '%s | Bitten',
     },
+    type: 'article',
     description: '성장 욕구가 많은 개발자로서, 공부한 내용을 정리하는 개발 블로그 입니다.',
   },
   verification: {

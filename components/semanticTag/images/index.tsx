@@ -9,7 +9,7 @@ const basePath = '/';
 
 export const ImagesTag: FC<ImagesTagProps> = ({ src, width, height, alt, ...restProps }) => {
   if (!src) return null;
-
+  console.log('src', src);
   const isLocalImage = !src.startsWith('http');
   const newProps: ImagesTagProps = { ...restProps, width, height };
 
@@ -43,8 +43,7 @@ export const ImagesTag: FC<ImagesTagProps> = ({ src, width, height, alt, ...rest
         width: '100%',
         maxWidth: newProps.width || 'inherit',
         aspectRatio,
-      }}
-    >
+      }}>
       <Image
         draggable={false}
         src={newProps.src || src}
