@@ -24,7 +24,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
     description: locale === 'en' ? 'A tech blog documenting growth and learning.' : '성장과 학습을 기록하는 기술 블로그입니다.',
     authors: [{ name: 'Bitten', url: baseUrl }],
     openGraph: {
-      images: '../',
+      images: ogImage.src,
       title: {
         default: 'Bitten Dev',
         template: '%s | Bitten',
