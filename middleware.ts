@@ -18,7 +18,6 @@ export function middleware(request: NextRequest) {
   if (firstSegment && !support.includes(firstSegment)) {
     const newPathname = pathname.replace(`/${firstSegment}`, '/en');
     const newUrl = new URL(newPathname, request.url);
-    console.log('Redirecting to:', newUrl.href);
     return NextResponse.redirect(newUrl, 301);
   }
 

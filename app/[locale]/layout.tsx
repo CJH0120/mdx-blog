@@ -6,13 +6,13 @@ import Footer from '@/components/footer';
 import AnimationProvider from '@/provider/AnimationProvider';
 import iphone from '../apple-touch-icon.png';
 import favicon from '../favicon.ico';
-import ogImage from '@/public/image/main_og.png';
+import ogImage from '../../public/image/main_og.png';
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 
 import { Analytics } from '@vercel/analytics/react';
 import localFont from 'next/font/local';
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
-  const baseUrl = `https://bittenlog.vercel.app${locale}`;
+  const baseUrl = `https://bittenlog.vercel.app`;
 
   const metadataBase: Metadata = {
     metadataBase: new URL(baseUrl),
@@ -24,7 +24,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
     description: locale === 'en' ? 'A tech blog documenting growth and learning.' : '성장과 학습을 기록하는 기술 블로그입니다.',
     authors: [{ name: 'Bitten', url: baseUrl }],
     openGraph: {
-      images: ogImage.src,
+      images: '../',
       title: {
         default: 'Bitten Dev',
         template: '%s | Bitten',

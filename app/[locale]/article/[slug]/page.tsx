@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: { slug: string; loc
       siteName: 'Bitten Dev',
       type: 'article',
       images: data.meta.thumbnail,
-      url: `https://bittenlog.vercel.app/${params.locale}/article/${params.slug}`,
+      url: `https://bittenlog.vercel.app/article/${params.slug}`,
     },
 
     twitter: {

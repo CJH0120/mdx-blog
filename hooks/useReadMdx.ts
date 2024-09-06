@@ -71,13 +71,11 @@ export const useReadMdx = async (pathUrl?: string, i18n?: string): Promise<MDX.M
 };
 
 export const useReadMdxFile = async (url_path: string, i18n?: string): Promise<MDX.Props | null> => {
-  console.log(i18n);
   try {
     const markdownDirectory = path.join(process.cwd(), `_markdown/${i18n === 'en' ? 'en' : 'ko'}`);
     const filenames = await fs.readdir(markdownDirectory);
     const normalizedUrlPath = normalizePath(url_path);
 
-    console.log(filenames);
     for (const filename of filenames) {
       const filePath = path.join(markdownDirectory, filename);
       const meta = await parseMarkdownFile(filePath);
