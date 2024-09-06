@@ -7,8 +7,8 @@ import { MDX } from '@/interface';
 import { SeriesWrapper } from '@/components/seriesSection';
 import { TagWrapper } from '@/components/tagSection';
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const data = await getFiles(params.slug);
+export async function generateMetadata({ params }: { params: { slug: string; locale: string } }): Promise<Metadata> {
+  const data = await getFiles(params.slug, params.locale);
   if (!data) return {};
   return {
     title: data.meta.title,
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       siteName: 'Bitten Dev',
       type: 'article',
       images: data.meta.thumbnail,
-      url: `https://bittenlog.vercel.app/article/${params.slug}`,
+      url: `https://bittenlog.vercel.app/${params.locale}/article/${params.slug}`,
     },
 
     twitter: {
@@ -32,15 +32,23 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     keywords: [...(data.meta.tags ?? [])],
   };
 }
-export async function generateStaticParams() {
-  const posts = ((await getDetail()) as MDX.Metadata[]) ?? [];
-  return posts?.map((post) => ({
-    slug: post.path,
-  }));
-}
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const data = (await getDetail(params.slug)) as MDX.DetailProps;
+export async function generateStaticParams() {
+  const posts = (await getDetail()) as MDX.Metadata[];
+
+  const locales = ['en', 'ko'];
+
+  return locales.flatMap((locale) =>
+    posts.map((post) => ({
+      params: {
+        locale,
+        slug: post.path,
+      },
+    }))
+  );
+}
+export default async function Page({ params }: { params: { slug: string; locale: string } }) {
+  const data = (await getDetail(params.slug, params.locale)) as MDX.DetailProps;
   if (!data.content) notFound();
   return (
     <>
@@ -51,7 +59,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <div className={[styles['footer-title-wrapper']].join(' ')}>
               <h3 className={[styles['footer-title']].join(' ')}>
                 <span className={[styles['footer-series']].join(' ')}>&quot;{data.meta.series}&quot;</span>
-                <span>시리즈물</span>
+                <span>{params.locale === 'en' ? 'Series' : '시리즈물'}</span>
               </h3>
             </div>
             <SeriesWrapper data={data.series as MDX.Metadata[]} currentPath={params.slug} />

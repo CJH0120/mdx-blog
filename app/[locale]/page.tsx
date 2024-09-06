@@ -3,9 +3,8 @@ import { useReadMdx } from '@/hooks/useReadMdx';
 import { MDX } from '@/interface';
 import { ArticleCard } from '@/components/card';
 
-export default async function Home() {
-  const markdownFiles = (await useReadMdx()) as MDX.Metadata[];
-
+export default async function Home({ params }: { params: { locale: string } }) {
+  const markdownFiles = (await useReadMdx(undefined, params.locale)) as MDX.Metadata[];
   return markdownFiles ? (
     <ul className={styles.main}>
       {markdownFiles?.map((v, idx) => {

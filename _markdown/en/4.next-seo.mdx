@@ -1,0 +1,236 @@
+---
+title: Learn How the Blog Works - SEO
+description: Explains SEO optimization methods using Next.js 14 App Router.
+date: 2024.9.5
+thumbnail: image/thumbnail/th_4.png
+path: next seo
+series: Blog Creation Process
+tag: SEO
+---
+
+# Understanding SEO - Search Engine Optimization
+
+SEO, or Search Engine Optimization, helps search engines like Naver or Google find your content more effectively when searched.
+
+There are three main types of SEO:
+
+- Technical SEO
+- On-Page SEO
+- Off-Page SEO
+
+### What is Technical SEO?
+
+Technical SEO involves optimizing technical aspects of your site to make it easier for search engine bots to crawl and index your site. This includes factors like site loading speed, mobile-friendliness, SSL certificates, and sitemaps.
+
+### What is On-Page SEO?
+
+On-Page SEO refers to optimizing the content and source code within your website. This includes keywords, meta tags, image optimization, and content quality.
+
+### What is Off-Page SEO?
+
+Off-Page SEO involves optimization efforts outside your website. When other websites link to your site, it can increase your site’s authority and improve its ranking in search engines.
+
+As a web developer, you can optimize for two of the three types of SEO mentioned above. Let's dive into these two.
+
+## Understanding Technical SEO Optimization
+
+In a previous post, I mentioned site loading speed. Google's `Lighthouse` provides key metrics for measuring site performance.
+
+Using `Lighthouse`, you can analyze your site's performance and get specific recommendations for improvement.
+
+![Performance](/image/post/lighthousepc.png)
+
+#### The image above shows my blog's Performance score.
+
+<br />
+
+The Performance metrics include FCP, LCP, TBT, CLS, and SI. Let’s look at each:
+
+- FCP: Time taken for the first content to be rendered on the web page
+- LCP: Time taken for the largest content element to be rendered
+- TBT: Total time during which the page is loading and the user cannot interact
+- CLS: Measures how much and how often the layout shifts during page load
+- SI: Time taken for the page to visually complete
+
+**Currently, the blog is rendered using SSG, so it performs quite well.**
+
+#### Let's Explore How to Generate a SiteMap with Next.js App Router
+
+The [sitemap.xml](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap) official documentation shows that it is designed to easily format `ts` to `XML`.
+
+```xml
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://acme.com</loc>
+    <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>1</priority>
+  </url>
+  <url>
+    <loc>https://acme.com/about</loc>
+    <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://acme.com/blog</loc>
+    <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>
+```
+
+For simple pages, you can manually enter the data. However, for sites like blogs with many posts, it's impractical to input each one individually. Instead, we'll use the functions provided by Next.js.
+
+```ts
+import type { MetadataRoute } from 'next';
+import { useReadMdx as ReadMDX } from '../hooks/useReadMdx';
+import { MDX } from '@/interface';
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = 'https://bittenlog.vercel.app';
+
+  const posts: MDX.Metadata[] = (await ReadMDX()) as MDX.Metadata[];
+  const indexPage = {
+    url: baseUrl,
+    lastModified: new Date().toISOString().split('T')[0],
+  };
+  const article = posts?.map((post) => {
+    return {
+      url: `${baseUrl}/article/${post.path}`,
+      lastModified: new Date(post.date).toISOString().split('T')[0],
+    };
+  });
+
+  return [indexPage, ...article];
+}
+```
+
+After creating `app/sitemap.ts` and formatting it as XML, you can generate an `output` similar to the [blog Sitemap](https://bittenlog.vercel.app/sitemap.xml).
+
+> Is that it?
+
+The basic setup is complete, but there are limitations with `sitemap.xml`. It is specified that "it can include up to 50,000 Sitemaps, but must not exceed 50MB (52,428,800 bytes) in size."
+
+Let's consult the official documentation and see how we can adapt this.
+
+```ts
+import type { MetadataRoute } from 'next';
+
+export async function generateSitemaps() {
+  return [{ id: 'test1' }, { id: 'test2' }, { id: 'test3' }];
+}
+
+export default async function sitemap({ id }: { id: string }): Promise<MetadataRoute.Sitemap> {
+  const products = new Array(5000).fill(null).map((_, index) => ({
+    id: index + 1,
+    date: new Date().toISOString(),
+  }));
+  return products.map((product) => ({
+    url: `http://localhost:3000/product/${product.id}`,
+    lastModified: product.date,
+  }));
+}
+```
+
+**Generate a list of IDs used on the page and create sitemaps based on these IDs.**
+
+```json
+ ● /sitemap/[__metadata_id__]           0 B                0 B
+    ├ /sitemap/test1.xml
+    ├ /sitemap/test2.xml
+    └ /sitemap/test3.xml
+```
+
+This approach creates multiple sitemaps, with each file containing up to 5,000 entries. You can then submit these sitemaps to Google. Since this blog won’t have around 50,000 posts, a simple implementation suffices.
+
+## Let's Explore On-Page SEO Optimization
+
+### Meta Tags
+
+Meta tags are crucial as they are the first thing encountered when sharing site links or appearing in search results. So, let's see how you can easily set meta tags in Next.js.
+
+Referencing the [official documentation](https://nextjs.org/docs/app/building-your-application/optimizing/metadata):
+
+```js
+export const metadata = {
+  title: 'Blog',
+  openGraph: {
+    title: 'Blog',
+  },
+};
+```
+
+It is formatted like the example above. Now, let's apply this to the blog.
+
+````ts
+export const metadata: Metadata = {
+  metadataBase: new URL('https://bittenlog.vercel.app'),
+  title: {
+    default: 'Bitten Dev',
+    template: '%s | Bitten Dev',
+  },
+
+  category: 'tech blog',
+  description: 'A development blog where I organize the content I have studied as a developer with a strong desire for growth.',
+  authors: [{ name: 'Bitten', url: 'https://bittenlog.vercel.app' }],
+
+  openGraph: {
+    images: ogImage.src,
+    title: {
+      default: 'Bitten Dev',
+      template: '%s | Bitten',
+    },
+    description: 'A development blog where I organize the content I have studied as a developer with a strong desire for growth.',
+  },
+  verification: {
+    google: 'uBovfhvYdbEJvqXAGE44EfvyNswgNRSOmXXEApmtV_g',
+  },
+};
+
+
+**app/layout.tsx**
+
+In the blog, only the basic settings have been configured. For example, in `title.template`, `%s | Bitten Dev` is used, where `%s` represents a variable.
+
+```ts
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const data = await getFiles(params.slug);
+  if (!data) return {};
+  return {
+    title: data.meta.title,
+    description: data.meta.description,
+    openGraph: {
+      images: data.meta.thumbnail,
+    },
+    keywords: [...(data.meta.tags ?? [])],
+  };
+}
+````
+
+The code for setting metadata in **app/article[slug]/page.tsx** is as follows:
+
+By defining only the title, the suffix `| Bitten Dev` will always be appended. If the title is not set, it will default to `Bitten Dev`.
+
+The **category** tag should specify the type or category of the website.
+The **description** tag provides a description of the website, which will be shown as a preview in search results.
+The **authors** tag is not mandatory, but adding author information can help clarify the source of the web document.
+The **keywords** tag is no longer used. Google has [stated](https://developers.google.com/search/blog/2009/09/google-does-not-use-keywords-meta-tag?hl=ko) that it is not used.
+
+#### openGrap
+
+**Social media** displays the title and description first.
+
+The **title** and **description** can be used as-is. Originally inherited, but applied directly due to issues during testing.
+
+The **images** are the most important. The supported file formats are JPEG, PNG, and GIF, with PNG being preferred. The recommended resolution is now **1200 X 630**, as opposed to the original **200 X 200**.
+
+## Off-page SEO Optimization
+
+This involves marketing strategies and exchanging links with partners to improve search engine rankings. Unless the content is likely to be widely shared, it can be challenging to manage this aspect. Sometimes, backlinks are purchased to boost rankings.
+
+While it’s possible to spread links across various websites or buy them, doing so on dubious sites may harm your own site’s reputation. The best approach is often to hire a professional service.
+
+### Conclusion
+
+Today, we explored SEO optimization using Next.js functions. In the future, we will focus on foundational computer science topics and will be writing about development CS-related content.

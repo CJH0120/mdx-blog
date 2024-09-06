@@ -1,0 +1,224 @@
+---
+title: Learn How the Blog Works - MDX
+description: I will explain how my blog is organized and how it works.
+date: 2024.9.1
+thumbnail: image/thumbnail/th_2.webp
+path: next mdx
+series: Blog Creation Process
+---
+
+_In this post, we will examine the libraries used in the blog and the method for importing MDX files._
+
+#### Identifying My Needs
+
+1. Zero operating costs
+2. Easy design customization
+3. SEO optimization
+4. Fast page loading
+5. No database usage
+
+**Now, let's take a closer look**
+
+<br />
+
+## Zero Operating Costs
+
+This can be easily addressed using Vercel.
+
+### What is Vercel?
+
+Vercel is a hosting platform that supports serverless environments. Routes and server-side code are deployed as Serverless Functions, allowing for free hosting. However, be aware that upgrading to a paid version may be more expensive than AWS.
+
+## Easy Design Customization
+
+Design is undoubtedly one of the most important aspects. While each service requires its own design, I’m not particularly skilled in design, so I used the [Toss Blog](https://toss.tech) as a reference. Future features will be planned separately, but for now, I will implement the design in the desired direction and add more as needed.
+
+## SEO Optimization and Fast Page Loading
+
+For a React-based framework that meets these two criteria, **Gatsby.js** and **Next.js** are options. I chose Next.js.
+
+#### Reasons for Choice
+
+1. It is a framework currently used in the industry.
+2. There is a need to further learn about AppRouter functions.
+
+## No Database Usage
+
+I chose a file-based content management approach using MDX. This avoids the complexities of a database and makes content management more convenient from both development and maintenance perspectives.
+
+## What Libraries Were Used?
+
+**package.json**
+
+```json
+"dependencies": {
+    "@next/third-parties": "^14.2.7",
+    "@vercel/analytics": "^1.3.1",
+    "next": "14.2.5",
+    "prismjs": "^1.29.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+
+"devDependencies": {
+    "@mdx-js/loader": "^3.0.1",
+    "@mdx-js/react": "^3.0.1",
+    "@next/mdx": "^14.2.7",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "^20.16.2",
+    "@types/prismjs": "^1.26.4",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.5",
+    "gray-matter": "^4.0.3",
+    "image-size": "^1.1.1",
+    "next-mdx-remote": "^5.0.0",
+    "sass": "^1.77.8",
+    "sharp": "^0.33.5",
+    "typescript": "^5.5.4"
+}
+```
+
+### prismjs
+
+A library that provides syntax highlighting for code in MDX.
+
+### @mdx
+
+A library that helps render MDX files in React applications, playing a crucial role in this blog.
+
+### next-mdx-remote
+
+A library that enables dynamic use of MDX libraries.
+
+### gray-matter
+
+A library used to extract metadata and content from Markdown files, including MDX files.
+
+**How to Use gray-matter**
+
+```ts
+import matter from 'gray-matter';
+
+/* 
+MDX
+---
+title: Learn How the Blog Works - MDX
+description: I will explain how my blog is organized and how it works.
+date: 2024.8.27
+thumbnail: image/thumbnail/th_2.webp
+path: next mdx
+series: Blog Creation Process
+---
+hi 
+
+
+//matter types
+
+const content: string;
+
+const data: {
+    [key: string]: any;
+}
+*/
+
+const { data, content } = matter(fileContents);
+```
+
+#### gray-matter result
+
+```ts
+console.log(data)
+=>{
+ title: 'Learn How the Blog Works - MDX',
+description: 'I will explain how my blog is organized and how it works.',
+date: '2024.8.27',
+thumbnail: 'image/thumbnail/th_2.webp',
+path: 'next mdx',
+series: 'Blog Creation Process'
+}
+
+console.log(content)
+=>
+Hi
+```
+
+`data` is returned as an object, while `content` is returned as a string.
+
+### image-size
+
+A library that provides the dimensions of local images, used for image optimization.
+
+## sass
+
+Sass is a **CSS preprocessor** that extends CSS functionality and makes writing and maintaining CSS easier. It is one of my favorite libraries.
+
+## What Functions Were Used
+
+You can find the detailed code in [useReadMdx.tsx](https://github.com/CJH0120/mdx-blog/blob/main/hooks/useReadMdx.ts).
+
+```ts
+export const useReadMdx = async (pathUrl?: string): Promise<MDX.Metadata[] | MDX.DetailProps> => {
+  const markdownDirectory = path.join(process.cwd(), '_markdown');
+  const filenames = await fs.readdir(markdownDirectory);
+
+  let current_content = undefined;
+  let current_tag: string[] = [];
+  let current_series: string | undefined = undefined;
+
+  const markdownMetaData: MDX.Metadata[] = await Promise.all(
+    filenames.map(async (filename) => {
+      const filePath = path.join(markdownDirectory, filename);
+      const meta = await parseMarkdownFile(filePath);
+      if (!!pathUrl && normalizePath(pathUrl) === meta.path) {
+        const fileContents = await fs.readFile(filePath, 'utf8');
+        const { content, data } = matter(fileContents);
+        current_content = content;
+        current_tag = data.tags;
+        current_series = data.series;
+      }
+      return { ...meta };
+    })
+  ).then((data) => data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+
+  if (pathUrl && typeof current_content === 'string') {
+    const currentMetaIdx = markdownMetaData.findIndex((data) => data.path === normalizePath(pathUrl)) as number;
+
+    let tagsArray = [];
+    for (const tag of current_tag) {
+      const resultSearchData = markdownMetaData.filter((data) => data.path !== normalizePath(pathUrl) && data.tags.includes(tag));
+      resultSearchData.length && tagsArray.push({ [tag]: resultSearchData });
+    }
+
+    return {
+      content: current_content,
+      meta: markdownMetaData[currentMetaIdx],
+      series: !!current_series ? markdownMetaData.filter((data) => data.series === (current_series as string)).reverse() : null,
+      tags: !!current_tag.length ? tagsArray : null,
+    };
+  } else {
+    return markdownMetaData;
+  }
+};
+```
+
+### Code Explanation
+
+Overall, the logic changes depending on the presence of `pathUrl`.
+
+#### Common
+
+After reading all files in the `_markdown` folder, the files are sorted by metadata in descending order.
+
+#### When `pathUrl` Exists
+
+Since the detailed page of a post is being viewed, it returns metadata for the given `path`, posts with the same tags, series posts, and the content of the specific post.
+
+#### When `pathUrl` Does Not Exist
+
+The absence of `pathUrl` signifies the main screen, so only the overall metadata is returned.
+
+### In Closing
+
+In this post, we explored the libraries used and how to load MDX files. In the next post, we will look into how to utilize functions in `Next.js`.

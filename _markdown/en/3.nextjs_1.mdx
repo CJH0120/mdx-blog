@@ -1,0 +1,120 @@
+---
+title: Learn How the Blog Works - Rendering
+description: Explains the rendering methods using Next.js functions.
+date: 2024.9.4
+thumbnail: image/thumbnail/th_3.webp
+path: next rendering
+series: Blog Creation Process
+tag: next.js
+---
+
+# What is Most Important?
+
+<br />
+
+> What do you feel is the most important aspect when creating a website?
+
+**I always prioritize the initial page loading speed.**
+
+- **Google** has studied the impact of web page loading times on user behavior. According to Google's report, for every additional second of page loading time, the user bounce rate increases by 2%.
+- **Amazon** has also researched the impact of page loading times on sales. Their study found that for every additional second of page loading time, sales decreased by 1%.
+
+According to announcements from big tech companies, no matter how well you design the UI/UX for clients, if the initial speed slows down to 10, 20, or 30 seconds, who will use it? From the early stages of development, I emphasized the performance of Lighthouse.
+
+> How can we achieve fast rendering?
+
+Currently, there are various rendering methods such as SSR, SSG, and ISR. Understanding what these rendering techniques are is crucial, so let me briefly explain each concept.
+
+### SSR (Server Side Rendering)
+
+- Provides HTML generated in real-time by the server every time a client requests a page.
+
+### SSG (Static Site Generation)
+
+- Pre-generates HTML files at build time, providing static files when requested by the server.
+
+### ISR (Incremental Static Regeneration)
+
+- Allows updating of HTML based on specific conditions or intervals while still pre-generating static pages.
+
+> Which rendering method should we choose?
+
+#### Identifying My Needs
+
+1. Zero operating costs
+2. Easy design customization
+3. SEO optimization
+4. Fast page loading
+5. No database usage
+
+Given these criteria, SSR is excluded since we are not using a database. Since there is no need for periodic updates to static files, SSG seems to be the most suitable option.
+
+So, how can we generate SSG with Next.js App Router?
+
+According to the [Next.js](https://nextjs.org/docs/app/api-reference/functions/generate-static-params) official documentation,
+there is a function called `generateStaticParams` which allows **static path generation at build time**.
+
+Let’s apply this feature to the blog.
+
+**Folder Structure for Detailed Posts**
+
+````mdx
+📦app
+┣ 📂article
+┃ ┗ 📂[slug]
+┃ ┃ ┣ 📜article.module.scss
+┃ ┃ ┣ 📜layout.tsx
+┃ ┃ ┗ 📜page.tsx
+
+According to the official documentation, you can execute the function inside `page.tsx`, or if using in a top-down format, you can use it inside `layout.tsx`.
+
+#### Using generateStaticParams
+
+```ts
+import { useReadMdxFile as getFiles, useReadMdx as getDetail } from '@/hooks/useReadMdx';
+
+export async function generateStaticParams() {
+  const posts = ((await getDetail()) as MDX.Metadata[]) ?? [];
+  return posts?.map((post) => ({
+    slug: post.path,
+  }));
+}
+```
+````
+
+#### After Build
+
+```mdx
+● /article/[slug] 11.4 kB 110 kB
+
+○ (Static) prerendered as static content
+● (SSG) prerendered as static HTML (uses getStaticProps)
+```
+
+Next.js automatically generates `SSG`.
+
+#### What Happens if generateStaticParams is Absent?
+
+```mdx
+├ ƒ /article/[slug] 11.4 kB 110 kB
+
+ƒ (Dynamic) server-rendered on demand
+```
+
+In this case, it will be generated using `SSR`.
+
+**Since we’ve come this far, let’s briefly look at how to generate ISR.**
+
+```ts
+export const revalidate = 60;
+```
+
+```mdx
+Adding `revalidate` at the top of `generateStaticParams` converts it to ISR. The above code means that `SSG` will be regenerated every 60 seconds.
+
+Another method involves using the `revalidatePath` and `revalidateTag` functions. For more details, check out the [Next.js Functions](https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration#functions) documentation.
+
+### In Closing
+
+Today, we briefly explored the rendering techniques and methods provided by the Next.js App Router. In the next post, we will look into SEO-related functions in Next.js.
+```

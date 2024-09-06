@@ -1,0 +1,52 @@
+---
+title: Why did I create a development blog?
+description: I will explain the reasons for creating a development blog.
+date: 2024.8.27
+thumbnail: image/thumbnail/th_1.webp
+path: next blog
+series: Blog Creation Process
+---
+
+# Reasons for Creating the Blog
+
+Currently, there are many platforms available.
+
+> Nevertheless, why did I decide to create a development blog? Let's take a look at the reasons.
+
+## Freedom of customization
+
+People tend to get easily bored when they see the same thing repeatedly. While platforms like Tistory allow for customization, there is the inconvenience of dealing with HTML and CSS directly. On the other hand, Naver and Velog have significant limitations in customization because you can only operate within predefined templates.
+
+## Low dependency
+
+A few years ago, Kakao's servers were down for several days. At that time, AI was not as advanced, and the blog was the only source of information. I experienced the inconvenience of not being able to view previously written posts even after searching. Considering that such situations might occur again, I decided to create a blog that I could manage myself.
+
+I plan to host the blog for free through Vercel.
+
+> What happens if Vercel’s servers go down?
+
+It might seem paradoxical, but because the hosting process flows from **local** => **github** => **vercel**, I believe that at least my posts will still be accessible. Therefore, I consider the dependency to be low.
+
+## Zero Operating Costs
+
+As mentioned earlier, hosting on Vercel is free of charge.
+
+> So, how is the database server configured?
+
+I do not operate a database server. From my experience with running other content using AWS, I found that it costs around 6,000 to 10,000 KRW per month. Since the blog posts are not frequently updated, there's no need for SSR, and login functionality isn't required, I decided not to run a database server. Instead, I designed it to read files using MDX locally.
+
+Therefore, I plan to keep the operating costs at zero.
+
+## Developing a Habit of Learning
+
+The existing learning habit was a simple routine of **learning** => **applying**.
+
+However, I now aim to apply the routine of **learning => applying => understanding => applying**. To achieve this, I plan to write about my understanding on the blog.
+
+## The Importance of Documenting
+
+From my experience at work, I've come to realize that documenting is more important than coding skills. Although it didn’t resonate with me before, I deeply understood the importance of documentation practices and habits through creating projects and leaving jobs. This is why I thought of the blog as an intersection of writing and development studies, and I intend to work on it diligently.
+
+### In closing
+
+I’ve briefly explained the background behind creating a personal blog for these five reasons. In the next post, I will discuss how the blog is structured and which libraries were used.
