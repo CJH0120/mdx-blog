@@ -11,8 +11,8 @@ import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 
 import { Analytics } from '@vercel/analytics/react';
 import localFont from 'next/font/local';
-export function generateMetadata(locale: string): Metadata {
-  const baseUrl = `https://bittenlog.vercel.app/${locale}`;
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
+  const baseUrl = `https://bittenlog.vercel.app${locale}`;
 
   const metadataBase: Metadata = {
     metadataBase: new URL(baseUrl),
@@ -63,7 +63,6 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }>) {
-  await generateMetadata(params.locale);
   return (
     <html lang={params.locale} className={qSoftLight.className}>
       <head>
