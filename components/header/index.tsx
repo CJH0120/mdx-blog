@@ -7,7 +7,12 @@ const Header = () => {
   const pathname = usePathname();
   console.log(pathname);
   const handleClick = () => {
-    pathname.includes('/en') ? router.replace(pathname.replace('/en', '/ko')) : router.replace(pathname.replace('/', '/en/'));
+    pathname.includes('/en')
+      ? (window.location.href = pathname.replace('/en', '/ko'))
+      : (window.location.href = pathname.replace('/', '/en/'));
+  };
+  const handleHover = () => {
+    pathname.includes('/en') ? router.prefetch(pathname.replace('/en', '/ko')) : router.prefetch(pathname.replace('/', '/en/'));
   };
   return (
     <header id="header" className={styles.header}>
@@ -17,7 +22,7 @@ const Header = () => {
             <h1 className={styles['title']}>Bitten</h1>
           </Link>
         </div>
-        <div className={styles['header-version']} onClick={handleClick}>
+        <div className={styles['header-version']} onClick={handleClick} onMouseEnter={handleHover}>
           {pathname.includes('/en') ? 'Kor.V' : 'Eng.V'}{' '}
         </div>
       </div>
