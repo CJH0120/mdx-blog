@@ -12,34 +12,32 @@ tag: next.js
 
 <br />
 
-> 홈페이지를 만들다보면 어떤게 가장 중요하다고 느껴지시나요?
+> 홈페이지를 만들다 보면 가장 중요하다고 느껴지는 점이 무엇인가요?
 
-**저의 항상 우선순위는 첫페이지 로딩 속도입니다.**
+**저는 항상 첫 페이지 로딩 속도를 우선적으로 고려합니다.**
 
 - **Google**은 웹 페이지 로딩 시간이 사용자 행동에 미치는 영향을 연구한 바 있습니다. Google의 보고서에 따르면, 페이지 로딩 시간이 1초 증가할 때마다 사용자 이탈률이 2%씩 증가한다고 합니다.
 - **Amazon** 또한 페이지 로딩 시간이 매출에 미치는 영향을 연구한 적이 있습니다. 그들의 연구에서는 페이지 로딩 시간이 1초 늘어날 때마다 매출이 1% 감소한다고 보고하였습니다.
 
-빅 테크 기업에서 발표한 바와 같이, 클라이언트를 위해 UI/UX를 잘 만들어도 초기 속도가 10초, 20초, 30초로 느려진다면 누가 사용할까요? 저는 개발 초기부터 이러한 생각을 하며 Lighthouse의 퍼포먼스를 중요시했습니다.
+빅 테크 기업들의 발표에 따르면, 클라이언트를 위해 UI/UX를 아무리 잘 만들어도 초기 속도가 10초, 20초, 30초로 느려지면 누가 사용할까요? 저는 개발 초기부터 이러한 점을 고려하여 Lighthouse의 퍼포먼스를 중요시했습니다.
 
-> 어떻게 빠르게 렌더링 시킬수 있을까?
+> 어떻게 빠르게 렌더링할 수 있을까?
 
-현재 SSR, SSG, ISR과 같은 다양한 방법이 있습니다, 이러한 렌더링 기법들이 실제로 무엇인지 이해하는 것이 중요하므로, 각각의 개념을 간단히 설명하겠습니다.
+현재 SSR, SSG, ISR과 같은 다양한 렌더링 방법이 있습니다. 이러한 렌더링 기법들이 실제로 무엇인지 이해하는 것이 중요하므로, 각각의 개념을 간단히 설명하겠습니다.
 
 ### SSR (Server Side Rendering)
 
-- 클라이언트가 페이지를 요청할 때마다 서버에서 HTML을 실시간으로 생성하여 제공한다.
+- 클라이언트가 페이지를 요청할 때마다 서버에서 HTML을 실시간으로 생성하여 제공합니다.
 
 ### SSG (Static Site Generation)
 
-- 빌드 타임에 HTML 파일을 미리 생성하여 요청 시 서버가 정적 파일을 제공한다.
+- 빌드 타임에 HTML 파일을 미리 생성하여 요청 시 서버가 정적 파일을 제공합니다.
 
 ### ISR (Incremental Static Regeneration)
 
-- 정적 페이지를 미리 생성하면서도 특정 조건이나 주기에 따라 HTML을 업데이트할 수 있는 기능을 제공한다.
+- 정적 페이지를 미리 생성하면서도 특정 조건이나 주기에 따라 HTML을 업데이트할 수 있는 기능을 제공합니다.
 
-> 어떤 렌더링 기법을 가져가야할까?
-
-앞선 글 내용중
+> 어떤 렌더링 기법을 선택해야 할까?
 
 #### 나의 니즈 파악하기
 
@@ -49,14 +47,14 @@ tag: next.js
 4. 페이지 빠른 로딩
 5. 데이터베이스 사용안하기
 
-이렇게 있었는데 데이터베이스를 사용 안 한다고 명시해놨기에 일단 SSR은 제외하겠습니다. 정적 파일을 주기적으로 업데이트할 일이 있을까요? 당연히 없습니다. 그러므로 SSG만 남아있네요.
+이렇게 설정했으므로, 데이터베이스를 사용하지 않기 때문에 SSR은 제외하겠습니다. 정적 파일을 주기적으로 업데이트할 필요는 없으니, 결국 SSG가 적합하겠네요.
 
 그럼 Next.js App Router에서 SSG를 어떻게 생성할 수 있을까요?
 
-[Next.js](https://nextjs.org/docs/app/api-reference/functions/generate-static-params) 공식문석을 들어가보면
-`generateStaticParams` 라는 함수가 있는데 설명을 요약하자면 **빌드 시점에 정적으로 경로를 생성할 수 있습니다.** 라고 되어있네요
+[Next.js](https://nextjs.org/docs/app/api-reference/functions/generate-static-params) 공식 문서에 따르면,
+`generateStaticParams` 라는 함수가 있습니다. 이 함수는 **빌드 시점에 정적으로 경로를 생성할 수 있습니다**라고 설명되어 있습니다.
 
-그럼 이걸 블로그에 적용해봅시다
+이제 이 기능을 블로그에 적용해봅시다.
 
 **상세 게시글의 대한 폴더 구조**
 
@@ -69,7 +67,7 @@ tag: next.js
 ┃ ┃ ┗ 📜page.tsx
 ```
 
-공식 문서에 따르면 page.tsx 안에서 함수를 실행해도 되고, Top Down 형식으로 사용할 때는 layout.tsx 안에서 써도 된다고 한다.
+공식 문서에 따르면, `page.tsx` 안에서 함수를 실행해도 되고, Top Down 형식으로 사용할 때는 `layout.tsx` 안에서 사용할 수 있습니다.
 
 #### generateStaticParams을 사용해보자
 
@@ -93,7 +91,7 @@ export async function generateStaticParams() {
 ● (SSG) prerendered as static HTML (uses getStaticProps)
 ```
 
-Next.js에서 자동으로 `SSG`를 생성해준다.
+Next.js에서 자동으로 `SSG`를 생성해줍니다.
 
 #### generateStaticParams 이 없으면 어떻게 되는걸까?
 
@@ -103,21 +101,18 @@ Next.js에서 자동으로 `SSG`를 생성해준다.
 ƒ (Dynamic) server-rendered on demand
 ```
 
-`SSR`로 생성이된다
+이 경우 `SSR`로 생성됩니다.
 
-**여기까지 온이상 간단히 ISR 생성 방법 알아보자**
+**여기까지 온 이상, 간단히 ISR 생성 방법을 알아보겠습니다.**
 
 ```ts
 export const revalidate = 60;
 ```
 
-`generateStaticParams` 함수 쓰는곳 위에 `revalidate`을 작성하면 IRS로 변한다 위에 코드는 60초마다 SSG가 재생성된다는 뜻이다.
+`generateStaticParams` 최상단에 `revalidate`를 작성하면 ISR로 변환됩니다. 위의 코드는 60초마다 `SSG`가 재생성된다는 의미입니다.
 
-또 다른 방법으 로는 `revalidatePath`,`revalidateTag` 라는 함수를 사용하면되는데,
-
-너무 내용이 길어지니 [Next.js Func](https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration#functions)
-에서 알아보자.
+또 다른 방법으로는 `revalidatePath`,`revalidateTag` 함수를 사용할 수 있습니다. 자세한 내용은 Next.js Func](https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration#functions)에서 확인해보세요.
 
 ### 마치면서
 
-오늘은 Next.js App Router가 제공하는 함수를 사용하여 렌더링 기법들과 방법들을 간략히 알아봤고, 다음 포스팅에서는 Next.js의 SEO 관련 함수들을 알아보겠습니다.
+오늘은 Next.js App Router가 제공하는 함수를 사용하여 렌더링 기법들과 방법들을 간략히 알아보았고, 다음 포스팅에서는 Next.js의 SEO 관련 함수들을 살펴보겠습니다.
