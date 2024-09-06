@@ -2,9 +2,9 @@ import styles from './mdxWrapper.module.scss';
 import { MDX } from '@/interface';
 import MDXContent from './mdxContent';
 import Image from 'next/image';
-import { getKoreaDate } from '@/utils/getKorDate';
+import { getEnglishDate, getKoreaDate } from '@/utils/getKorDate';
 
-const MDXWrapper = ({ content, meta }: MDX.Props) => {
+const MDXWrapper = ({ content, meta, language }: MDX.Props & { language: string }) => {
   return (
     <>
       <article className={styles.container}>
@@ -41,7 +41,7 @@ const MDXWrapper = ({ content, meta }: MDX.Props) => {
               ))}
             </div>
           )}
-          <span className={styles.date}>{getKoreaDate(meta.date)}</span>
+          <span className={styles.date}>{language === 'en' ? getEnglishDate(meta.date) : getKoreaDate(meta.date)}</span>
         </header>
         <MDXContent content={content} meta={meta} />
       </article>

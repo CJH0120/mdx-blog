@@ -52,7 +52,7 @@ export default async function Page({ params }: { params: { slug: string; locale:
   if (!data.content) notFound();
   return (
     <>
-      <MDXWrapper content={data.content} meta={data.meta} />
+      <MDXWrapper content={data.content} meta={data.meta} language={params.locale} />
       {!!data.series?.length && (
         <div className={[styles['footer-content-wrapper']].join(' ')}>
           <div className={[styles['footer-container']].join(' ')}>

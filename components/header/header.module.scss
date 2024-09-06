@@ -10,6 +10,7 @@
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     max-width: 1234px;
     .header-main {
       width: fit-content;
@@ -18,5 +19,18 @@
         font-size: 1.6rem;
       }
     }
+  }
+}
+
+.header-version {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  &:hover {
+    background-color: var(--gray100);
   }
 }
