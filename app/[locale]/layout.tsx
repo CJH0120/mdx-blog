@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
 import './globals.scss';
 
 import Header from '@/components/header';
@@ -7,7 +7,7 @@ import AnimationProvider from '@/provider/AnimationProvider';
 import iphone from '../apple-touch-icon.png';
 import favicon from '../favicon.ico';
 import ogImage from '../../public/image/main_og.png';
-import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import { Analytics } from '@vercel/analytics/react';
 import localFont from 'next/font/local';
@@ -34,6 +34,9 @@ export async function generateMetadata({ params: { locale } }: { params: { local
     },
     verification: {
       google: 'uBovfhvYdbEJvqXAGE44EfvyNswgNRSOmXXEApmtV_g',
+      other: {
+        'naver-site-verification': 'f87feffe3ba817951062fd1d6c634760eef4efb8',
+      },
     },
   };
   return metadataBase;
@@ -77,7 +80,7 @@ export default async function RootLayout({
           <Footer />
         </AnimationProvider>
         <Analytics />
-        {params.locale === 'en' ? <GoogleAnalytics gaId="G-8SY65R3J8S" /> : <GoogleAnalytics gaId="G-8MFSWPWB3Q" />}
+        <GoogleAnalytics gaId="G-8MFSWPWB3Q" />
       </body>
     </html>
   );
