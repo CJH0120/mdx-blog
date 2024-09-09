@@ -5,7 +5,6 @@ import { usePathname, useRouter } from 'next/navigation';
 const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
-  console.log(pathname);
   const handleClick = () => {
     pathname.includes('/en')
       ? (window.location.href = pathname.replace('/en', '/ko'))

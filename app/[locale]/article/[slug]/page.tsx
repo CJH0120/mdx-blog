@@ -62,7 +62,7 @@ export default async function Page({ params }: { params: { slug: string; locale:
                 <span>{params.locale === 'en' ? 'Series' : '시리즈물'}</span>
               </h3>
             </div>
-            <SeriesWrapper data={data.series as MDX.Metadata[]} currentPath={params.slug} />
+            <SeriesWrapper data={data.series as MDX.Metadata[]} currentPath={params.slug} locale={params.locale} />
           </div>
         </div>
       )}
