@@ -36,6 +36,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
       google: 'uBovfhvYdbEJvqXAGE44EfvyNswgNRSOmXXEApmtV_g',
       other: {
         'naver-site-verification': 'f87feffe3ba817951062fd1d6c634760eef4efb8',
+        'yandex-verification': 'bd3b0b282f40ba57',
       },
     },
   };
