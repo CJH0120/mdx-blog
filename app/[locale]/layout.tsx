@@ -77,8 +77,6 @@ export default async function RootLayout({
           <Footer />
         </AnimationProvider>
         <Analytics />
-        <GoogleAnalytics gaId="GTM-5LNSR6M9" />
-        {params.locale === 'en' ? <GoogleTagManager gtmId="G-8SY65R3J8S" /> : <GoogleTagManager gtmId="G-8MFSWPWB3Q" />}
       </body>
     </html>
   );
