@@ -1,18 +1,18 @@
-import type { Metadata } from 'next';
-import './globals.scss';
+import type { Metadata } from 'next'
+import './globals.scss'
 
-import Header from '@/components/header';
-import Footer from '@/components/footer';
-import AnimationProvider from '@/provider/AnimationProvider';
-import iphone from '../apple-touch-icon.png';
-import favicon from '../favicon.ico';
-import ogImage from '../../public/image/main_og.png';
-import { GoogleAnalytics } from '@next/third-parties/google';
+import Header from '@/components/header'
+import Footer from '@/components/footer'
+import AnimationProvider from '@/provider/AnimationProvider'
+import iphone from '../apple-touch-icon.png'
+import favicon from '../favicon.ico'
+import ogImage from '../../public/image/main_og.png'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
-import { Analytics } from '@vercel/analytics/react';
-import localFont from 'next/font/local';
+import { Analytics } from '@vercel/analytics/react'
+import localFont from 'next/font/local'
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
-  const baseUrl = `https://bittenlog.vercel.app`;
+  const baseUrl = `https://bittenlog.vercel.app`
 
   const metadataBase: Metadata = {
     metadataBase: new URL(baseUrl),
@@ -39,8 +39,8 @@ export async function generateMetadata({ params: { locale } }: { params: { local
         'yandex-verification': 'bd3b0b282f40ba57',
       },
     },
-  };
-  return metadataBase;
+  }
+  return metadataBase
 }
 const qSoftLight = localFont({
   src: [
@@ -50,22 +50,22 @@ const qSoftLight = localFont({
       style: 'normal',
     },
   ],
-});
+})
 
 export async function generateStaticParams() {
-  const locales = ['en', 'ko'];
+  const locales = ['en', 'ko']
 
   return locales.map((locale) => ({
     locale: locale,
-  }));
+  }))
 }
 
 export default async function RootLayout({
   children,
   params,
 }: Readonly<{
-  children: React.ReactNode;
-  params: { locale: string };
+  children: React.ReactNode
+  params: { locale: string }
 }>) {
   return (
     <html lang={params.locale} className={qSoftLight.className}>
@@ -84,5 +84,5 @@ export default async function RootLayout({
         <GoogleAnalytics gaId="G-8MFSWPWB3Q" />
       </body>
     </html>
-  );
+  )
 }

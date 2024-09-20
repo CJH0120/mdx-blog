@@ -1,6 +1,6 @@
-import { MDX } from '@/interface';
-import styles from './tagWrapper.module.scss';
-import { TagCard } from '../card';
+import { MDX } from '@/interface'
+import styles from './tagWrapper.module.scss'
+import { TagCard } from '../card'
 export const TagWrapper = ({ data }: { data: MDX.Metadata[] }) => {
   return (
     <ul className={[styles['tag-wrapper']].join(' ')}>
@@ -10,5 +10,5 @@ export const TagWrapper = ({ data }: { data: MDX.Metadata[] }) => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}
