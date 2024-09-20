@@ -1,1 +1,1 @@
-export { TagWrapper } from './wrapper'
+export { TagWrapper } from './wrapper';
