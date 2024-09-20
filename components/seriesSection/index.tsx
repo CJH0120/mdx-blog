@@ -1,1 +1,1 @@
-export { SeriesWrapper } from './wrapper';
+export { SeriesWrapper } from './wrapper'
