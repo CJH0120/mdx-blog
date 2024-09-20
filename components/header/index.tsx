@@ -1,18 +1,18 @@
-'use client';
-import Link from 'next/link';
-import styles from './header.module.scss';
-import { usePathname, useRouter } from 'next/navigation';
+'use client'
+import Link from 'next/link'
+import styles from './header.module.scss'
+import { usePathname, useRouter } from 'next/navigation'
 const Header = () => {
-  const router = useRouter();
-  const pathname = usePathname();
+  const router = useRouter()
+  const pathname = usePathname()
   const handleClick = () => {
     pathname.includes('/en')
       ? (window.location.href = pathname.replace('/en', '/ko'))
-      : (window.location.href = pathname.replace('/', '/en/'));
-  };
+      : (window.location.href = pathname.replace('/', '/en/'))
+  }
   const handleHover = () => {
-    pathname.includes('/en') ? router.prefetch(pathname.replace('/en', '/ko')) : router.prefetch(pathname.replace('/', '/en/'));
-  };
+    pathname.includes('/en') ? router.prefetch(pathname.replace('/en', '/ko')) : router.prefetch(pathname.replace('/', '/en/'))
+  }
   return (
     <header id="header" className={styles.header}>
       <div className={styles['header-container']}>
@@ -26,7 +26,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

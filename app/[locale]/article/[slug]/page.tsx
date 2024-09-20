@@ -1,15 +1,15 @@
-import { notFound } from 'next/navigation';
-import MDXWrapper from '@/components/MDX/mdxWrapper';
-import { useReadMdxFile as getFiles, useReadMdx as getDetail } from '@/hooks/useReadMdx';
-import { Metadata } from 'next';
-import styles from './article.module.scss';
-import { MDX } from '@/interface';
-import { SeriesWrapper } from '@/components/seriesSection';
-import { TagWrapper } from '@/components/tagSection';
+import { notFound } from 'next/navigation'
+import MDXWrapper from '@/components/MDX/mdxWrapper'
+import { useReadMdxFile as getFiles, useReadMdx as getDetail } from '@/hooks/useReadMdx'
+import { Metadata } from 'next'
+import styles from './article.module.scss'
+import { MDX } from '@/interface'
+import { SeriesWrapper } from '@/components/seriesSection'
+import { TagWrapper } from '@/components/tagSection'
 
 export async function generateMetadata({ params }: { params: { slug: string; locale: string } }): Promise<Metadata> {
-  const data = await getFiles(params.slug, params.locale);
-  if (!data) return {};
+  const data = await getFiles(params.slug, params.locale)
+  if (!data) return {}
   return {
     title: data.meta.title,
     description: data.meta.description,
@@ -30,13 +30,13 @@ export async function generateMetadata({ params }: { params: { slug: string; loc
     },
 
     keywords: [...(data.meta.tags ?? [])],
-  };
+  }
 }
 
 export async function generateStaticParams() {
-  const posts = (await getDetail()) as MDX.Metadata[];
+  const posts = (await getDetail()) as MDX.Metadata[]
 
-  const locales = ['en', 'ko'];
+  const locales = ['en', 'ko']
 
   return locales.flatMap((locale) =>
     posts.map((post) => ({
@@ -45,11 +45,11 @@ export async function generateStaticParams() {
         slug: post.path,
       },
     }))
-  );
+  )
 }
 export default async function Page({ params }: { params: { slug: string; locale: string } }) {
-  const data = (await getDetail(params.slug, params.locale)) as MDX.DetailProps;
-  if (!data.content) notFound();
+  const data = (await getDetail(params.slug, params.locale)) as MDX.DetailProps
+  if (!data.content) notFound()
   return (
     <>
       <MDXWrapper content={data.content} meta={data.meta} language={params.locale} />
@@ -83,5 +83,5 @@ export default async function Page({ params }: { params: { slug: string; locale:
           ))
         )}
     </>
-  );
+  )
 }

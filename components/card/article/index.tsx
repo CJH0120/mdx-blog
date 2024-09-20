@@ -1,11 +1,11 @@
-'use client';
-import { MDX } from '@/interface';
-import Link from 'next/link';
-import styles from './articleCard.module.scss';
-import Image from 'next/image';
-import { memo, useCallback, useEffect, useRef } from 'react';
-import { useAnimation } from '@/hooks/useAnimation';
-import { getKoreaDate } from '@/utils/getKorDate';
+'use client'
+import { MDX } from '@/interface'
+import Link from 'next/link'
+import styles from './articleCard.module.scss'
+import Image from 'next/image'
+import { memo, useCallback, useEffect, useRef } from 'react'
+import { useAnimation } from '@/hooks/useAnimation'
+import { getKoreaDate } from '@/utils/getKorDate'
 export const ArticleCard = ({
   date,
   description,
@@ -14,39 +14,39 @@ export const ArticleCard = ({
   title,
   isMain = true,
 }: Omit<MDX.Metadata, 'tags'> & { isMain?: boolean }) => {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const { isAnimate } = useAnimation();
+  const ref = useRef<HTMLAnchorElement>(null)
+  const { isAnimate } = useAnimation()
   const handleIntoView = useCallback(() => {
-    if (!ref.current) return;
-    ref.current.classList.add(styles['card-into-view']);
-  }, []);
+    if (!ref.current) return
+    ref.current.classList.add(styles['card-into-view'])
+  }, [])
 
   useEffect(() => {
-    if (!ref.current || !isMain || !isAnimate) return;
+    if (!ref.current || !isMain || !isAnimate) return
 
     const options = {
       root: null,
       rootMargin: '-1px',
       threshold: 1.0,
-    };
+    }
 
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        handleIntoView();
+        handleIntoView()
       }
-    }, options);
+    }, options)
 
     if (ref.current) {
-      observer.observe(ref.current);
+      observer.observe(ref.current)
     }
 
     return () => {
       if (ref.current) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        observer.unobserve(ref.current);
+        observer.unobserve(ref.current)
       }
-    };
-  }, [isAnimate, isMain, handleIntoView]);
+    }
+  }, [isAnimate, isMain, handleIntoView])
   return (
     <Link
       className={[styles['card-wrapper'], !isMain ? styles['card-not-intersect'] : '', !isAnimate ? styles['card-into-view'] : ''].join(
@@ -76,7 +76,7 @@ export const ArticleCard = ({
         />
       </div>
     </Link>
-  );
-};
+  )
+}
 
-ArticleCard.displayName = 'ArticleCard';
+ArticleCard.displayName = 'ArticleCard'

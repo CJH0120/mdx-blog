@@ -6,9 +6,8 @@ const Footer = () => {
         padding: '10px',
         height: '150px',
         borderTop: '1px solid var(--border-color)',
-      }}
-    ></footer>
-  );
-};
+      }}></footer>
+  )
+}
 
-export default Footer;
+export default Footer
