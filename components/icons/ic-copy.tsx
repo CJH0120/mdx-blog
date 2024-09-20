@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { SVGProps, memo } from 'react'
+import * as React from 'react';
+import { SVGProps, memo } from 'react';
 const IconCopy = memo((props: SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" {...props}>
     <path
@@ -9,7 +9,7 @@ const IconCopy = memo((props: SVGProps<SVGSVGElement>) => (
       clipRule="evenodd"
     />
   </svg>
-))
-export default IconCopy
+));
+export default IconCopy;
 
-IconCopy.displayName = 'IconCopy'
+IconCopy.displayName = 'IconCopy';

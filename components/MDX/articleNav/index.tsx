@@ -1,8 +1,8 @@
-'use client'
-import { useState } from 'react'
-import styles from './article.module.scss'
+'use client';
+import { useState } from 'react';
+import styles from './article.module.scss';
 const ArticleNav = ({ articleNav }: { articleNav: string[] }) => {
-  const [isHover, setIsHover] = useState<boolean>(false)
+  const [isHover, setIsHover] = useState<boolean>(false);
   return (
     <nav className={styles.nav} onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
       <ul className={styles.navList}>
@@ -12,9 +12,9 @@ const ArticleNav = ({ articleNav }: { articleNav: string[] }) => {
       </ul>
       {isHover && <ArticleBox articleNav={articleNav} />}
     </nav>
-  )
-}
-export default ArticleNav
+  );
+};
+export default ArticleNav;
 
 const ArticleBox = ({ articleNav }: { articleNav: string[] }) => {
   return (
@@ -25,5 +25,5 @@ const ArticleBox = ({ articleNav }: { articleNav: string[] }) => {
         </a>
       ))}
     </div>
-  )
-}
+  );
+};

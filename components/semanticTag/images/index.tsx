@@ -1,37 +1,37 @@
-import { FC, ImgHTMLAttributes } from 'react'
-import path from 'path'
-import getImageSize from 'image-size'
-import Image from 'next/image'
+import { FC, ImgHTMLAttributes } from 'react';
+import path from 'path';
+import getImageSize from 'image-size';
+import Image from 'next/image';
 
 interface ImagesTagProps extends ImgHTMLAttributes<HTMLImageElement> {}
 
-const basePath = '/'
+const basePath = '/';
 
 export const ImagesTag: FC<ImagesTagProps> = ({ src, width, height, alt, ...restProps }) => {
-  if (!src) return null
-  const isLocalImage = !src.startsWith('http')
-  const newProps: ImagesTagProps = { ...restProps, width, height }
+  if (!src) return null;
+  const isLocalImage = !src.startsWith('http');
+  const newProps: ImagesTagProps = { ...restProps, width, height };
 
   if (isLocalImage) {
     if (!width || !height) {
-      const fileName = src.replace('image', '')
-      const filePath = path.join(process.cwd(), 'public', 'image', fileName)
+      const fileName = src.replace('image', '');
+      const filePath = path.join(process.cwd(), 'public', 'image', fileName);
 
       try {
-        const dimensions = getImageSize(filePath)
-        newProps.width = dimensions.width
-        newProps.height = dimensions.height
+        const dimensions = getImageSize(filePath);
+        newProps.width = dimensions.width;
+        newProps.height = dimensions.height;
       } catch (error) {
-        console.error('Error getting image size:', error)
+        console.error('Error getting image size:', error);
       }
     }
 
     if (!src.startsWith(basePath)) {
-      newProps.src = `${basePath}${src}`
+      newProps.src = `${basePath}${src}`;
     }
   }
 
-  const aspectRatio = newProps.width && newProps.height ? `${newProps.width}/${newProps.height}` : '16/9'
+  const aspectRatio = newProps.width && newProps.height ? `${newProps.width}/${newProps.height}` : '16/9';
 
   return (
     <span
@@ -56,5 +56,5 @@ export const ImagesTag: FC<ImagesTagProps> = ({ src, width, height, alt, ...rest
         }}
       />
     </span>
-  )
-}
+  );
+};

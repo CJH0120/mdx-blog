@@ -1,8 +1,8 @@
-import styles from './mdxWrapper.module.scss'
-import { MDX } from '@/interface'
-import MDXContent from './mdxContent'
-import Image from 'next/image'
-import { getEnglishDate, getKoreaDate } from '@/utils/getKorDate'
+import styles from './mdxWrapper.module.scss';
+import { MDX } from '@/interface';
+import MDXContent from './mdxContent';
+import Image from 'next/image';
+import { getEnglishDate, getKoreaDate } from '@/utils/getKorDate';
 
 const MDXWrapper = ({ content, meta, language }: MDX.Props & { language: string }) => {
   return (
@@ -48,7 +48,7 @@ const MDXWrapper = ({ content, meta, language }: MDX.Props & { language: string 
       {/* 
 				{articleNav.length > 0 && <ArticleNav articleNav={articleNav} />} */}
     </>
-  )
-}
+  );
+};
 
-export default MDXWrapper
+export default MDXWrapper;

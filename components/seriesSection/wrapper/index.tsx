@@ -1,6 +1,6 @@
-import { MDX } from '@/interface'
-import styles from './seriesWrapper.module.scss'
-import { SeriesCard } from '../card'
+import { MDX } from '@/interface';
+import styles from './seriesWrapper.module.scss';
+import { SeriesCard } from '../card';
 export const SeriesWrapper = ({ data, currentPath, locale }: { data: MDX.Metadata[]; currentPath: string; locale: string }) => {
   return (
     <ul className={[styles['series-wrapper']].join(' ')}>
@@ -10,5 +10,5 @@ export const SeriesWrapper = ({ data, currentPath, locale }: { data: MDX.Metadat
         </li>
       ))}
     </ul>
-  )
-}
+  );
+};
