@@ -17,7 +17,7 @@ RUN pnpm install
 COPY . .
 
 # 애플리케이션 포트 설정
-EXPOSE 3001
+EXPOSE 3000
 
 # 애플리케이션 실행 (pnpm 사용)
 CMD ["pnpm", "start"]
