@@ -1,9 +1,9 @@
-import { MDXComponents } from 'mdx/types';
-import { H1, H2, H3, H4 } from './h';
-import { Code } from './code';
-import { LinkTag } from './link';
-import { ImagesTag } from './images';
-import React, { Children } from 'react';
+import { MDXComponents } from 'mdx/types'
+import { H1, H2, H3, H4 } from './h'
+import { Code } from './code'
+import { LinkTag } from './link'
+import { ImagesTag } from './images'
+import React, { Children } from 'react'
 const CustomTag: Readonly<MDXComponents> = {
   h1: H1,
   h2: H2,
@@ -14,5 +14,5 @@ const CustomTag: Readonly<MDXComponents> = {
   img: ImagesTag,
   code: Code,
   p: (props) => <div {...props} />,
-};
-export default CustomTag;
+}
+export default CustomTag
